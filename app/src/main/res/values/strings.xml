@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">HealthCare</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <!-- Patient -->
+    <string name="doctor_edit_profile">Edit Profile</string>
+    <string name="doctor_report">Report</string>
+
+
+    <!-- Doctor-->
+    <string name="patient_edit_profile">Edit Profile</string>
+    <string name="patient_dashboard">Dashboard</string>
+    <string name="patient_prescription">Prescription</string>
+<!--Common-->
+    <string name="menu_logout">Log Out</string>
+
+</resources>
