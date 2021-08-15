@@ -20,11 +20,7 @@
         android:id="@+id/patient_nav_prescription"
         android:name="com.example.hms.ui.patient.prescription.PrescriptionFragment"
         android:label="@string/patient_prescription"
-        tools:layout="@layout/fragment_gallery" />
+        tools:layout="@layout/fragment_doctor_report" />
 
-    <fragment
-        android:id="@+id/patient_nav_logout"
-        android:name="com.example.hms.ui.patient.slideshow.SlideshowFragment"
-        android:label="@string/menu_logout"
-        tools:layout="@layout/fragment_slideshow" />
+
 </navigation>

@@ -1,10 +1,12 @@
 package com.example.hms.ui.doctor;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 
 
 import com.example.hms.R;
+import com.example.hms.ui.login.LoginActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
@@ -45,8 +47,20 @@ public class DoctorActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_doctor);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+        navigationView.setNavigationItemSelectedListener(item -> {
+            switch (item.getItemId()){
+                case R.id.doctor_nav_logout:
+                    startActivity( LoginActivity.class);
+                    return true;
+            }
+            return false;
+        });
     }
-
+    private void startActivity(Class<?> cls){
+        this.finish();
+        Intent intent= new Intent(this,cls);
+        startActivity(intent);
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

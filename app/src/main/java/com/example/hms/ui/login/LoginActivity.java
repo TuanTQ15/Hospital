@@ -101,6 +101,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
     private void startActivity( Class<?> cls){
+        this.finish();
         Intent intent = new Intent(this, cls);
         startActivity(intent);
     }

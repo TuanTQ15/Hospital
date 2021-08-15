@@ -12,28 +12,18 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.hms.databinding.FragmentGalleryBinding;
+import com.example.hms.databinding.FragmentPatientPrescriptionBinding;
 
 public class PrescriptionFragment extends Fragment {
 
-    private PrescriptionViewModel prescriptionViewModel;
-    private FragmentGalleryBinding binding;
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        prescriptionViewModel =
-                new ViewModelProvider(this).get(PrescriptionViewModel.class);
+    private FragmentPatientPrescriptionBinding binding;
 
-        binding = FragmentGalleryBinding.inflate(inflater, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        binding = FragmentPatientPrescriptionBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-
-        final TextView textView = binding.textGallery;
-        prescriptionViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
+        final TextView textView = binding.textHome;
         return root;
     }
 

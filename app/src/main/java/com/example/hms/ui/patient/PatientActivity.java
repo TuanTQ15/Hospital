@@ -43,13 +43,20 @@ public class PatientActivity extends AppCompatActivity {
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.patient_nav_dashboard,
-                R.id.patient_nav_edit_profile, R.id.patient_nav_prescription, R.id.patient_nav_logout).setDrawerLayout(drawerLayout)
+                R.id.patient_nav_edit_profile, R.id.patient_nav_prescription).setDrawerLayout(drawerLayout)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_patient);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+        navigationView.setNavigationItemSelectedListener(item -> {
+            switch (item.getItemId()){
+                case R.id.patient_nav_logout:
+                    startActivity( LoginActivity.class);
+                    return true;
+            }
+            return false;
+        });
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -57,16 +64,11 @@ public class PatientActivity extends AppCompatActivity {
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem menuItem) {
-        switch (menuItem.getItemId()) {
-            case R.id.patient_nav_logout:
-                Intent intent= new Intent(this, LoginActivity.class);
-                startActivity(intent);
-                return true;
-        }
-        return (super.onOptionsItemSelected(menuItem));
-    }
+   private void startActivity(Class<?> cls){
+        this.finish();
+       Intent intent= new Intent(this, cls);
+       startActivity(intent);
+   }
     @Override
     public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_patient);

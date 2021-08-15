@@ -7,19 +7,15 @@
 
     <fragment
         android:id="@+id/doctor_nav_edit_profile"
-        android:name="com.example.hms.ui.doctor.home.HomeFragment"
+        android:name="com.example.hms.ui.doctor.profile.ProfileFragment"
         android:label="@string/doctor_edit_profile"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_doctor_edit_profile" />
 
     <fragment
         android:id="@+id/doctor_nav_report"
-        android:name="com.example.hms.ui.doctor.gallery.GalleryFragment"
+        android:name="com.example.hms.ui.doctor.report.ReportFragment"
         android:label="@string/doctor_report"
-        tools:layout="@layout/fragment_gallery" />
+        tools:layout="@layout/fragment_doctor_report" />
 
-    <fragment
-        android:id="@+id/doctor_nav_logout"
-        android:name="com.example.hms.ui.doctor.slideshow.SlideshowFragment"
-        android:label="@string/menu_logout"
-        tools:layout="@layout/fragment_slideshow" />
+
 </navigation>
