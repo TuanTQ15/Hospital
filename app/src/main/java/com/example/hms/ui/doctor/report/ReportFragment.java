@@ -14,26 +14,19 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.hms.databinding.FragmentDoctorReportBinding;
 
+import io.reactivex.rxjava3.subjects.PublishSubject;
+
 public class ReportFragment extends Fragment {
 
-    private ReportViewModel reportViewModel;
     private FragmentDoctorReportBinding binding;
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        reportViewModel =
-                new ViewModelProvider(this).get(ReportViewModel.class);
+    public View onCreateView(@NonNull LayoutInflater inflater,ViewGroup container, Bundle savedInstanceState) {
 
         binding = FragmentDoctorReportBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         final TextView textView = binding.textGallery;
-        reportViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
+        textView.setText("this report");
         return root;
     }
 
@@ -41,5 +34,12 @@ public class ReportFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+    private PublishSubject<Integer> selectPublisher;
+    public PublishSubject<Integer> getSelectPublisher() {
+        if (selectPublisher == null) {
+            selectPublisher = PublishSubject.create();
+        }
+        return selectPublisher;
     }
 }

@@ -14,6 +14,8 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.hms.databinding.FragmentPatientPrescriptionBinding;
 
+import io.reactivex.rxjava3.subjects.PublishSubject;
+
 public class PrescriptionFragment extends Fragment {
 
 
@@ -24,6 +26,7 @@ public class PrescriptionFragment extends Fragment {
         binding = FragmentPatientPrescriptionBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         final TextView textView = binding.textHome;
+        textView.setText("this prescription");
         return root;
     }
 
@@ -31,5 +34,12 @@ public class PrescriptionFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+    private PublishSubject<Integer> selectPublisher;
+    public PublishSubject<Integer> getSelectPublisher() {
+        if (selectPublisher == null) {
+            selectPublisher = PublishSubject.create();
+        }
+        return selectPublisher;
     }
 }

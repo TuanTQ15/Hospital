@@ -6,6 +6,9 @@ import androidx.room.Room;
 
 import com.example.hms.dao.AppDatabase;
 
+import dagger.hilt.android.HiltAndroidApp;
+
+@HiltAndroidApp
 public class MyApplication extends Application {
     @Override
     public void onCreate() {

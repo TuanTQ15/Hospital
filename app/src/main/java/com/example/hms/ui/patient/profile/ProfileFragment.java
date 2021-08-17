@@ -14,6 +14,8 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.hms.databinding.FragmentPatientProfileBinding;
 
+import io.reactivex.rxjava3.subjects.PublishSubject;
+
 public class ProfileFragment extends Fragment {
 
 
@@ -22,7 +24,6 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentPatientProfileBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-        final TextView textView = binding.textHome;
 
         return root;
     }
@@ -31,5 +32,13 @@ public class ProfileFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    private PublishSubject<Integer> selectPublisher;
+    public PublishSubject<Integer> getSelectPublisher() {
+        if (selectPublisher == null) {
+            selectPublisher = PublishSubject.create();
+        }
+        return selectPublisher;
     }
 }

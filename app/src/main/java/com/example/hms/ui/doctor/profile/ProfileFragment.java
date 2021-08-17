@@ -14,26 +14,21 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.hms.databinding.FragmentDoctorEditProfileBinding;
 
+import io.reactivex.rxjava3.subjects.PublishSubject;
+
 public class ProfileFragment extends Fragment {
 
-    private ProfileViewModel profileViewModel;
+
     private FragmentDoctorEditProfileBinding binding;
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        profileViewModel =
-                new ViewModelProvider(this).get(ProfileViewModel.class);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
 
         binding = FragmentDoctorEditProfileBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         final TextView textView = binding.textHome;
-        profileViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
+        textView.setText("this profile");
         return root;
     }
 
@@ -41,5 +36,12 @@ public class ProfileFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+    private PublishSubject<Integer> selectPublisher;
+    public PublishSubject<Integer> getSelectPublisher() {
+        if (selectPublisher == null) {
+            selectPublisher = PublishSubject.create();
+        }
+        return selectPublisher;
     }
 }

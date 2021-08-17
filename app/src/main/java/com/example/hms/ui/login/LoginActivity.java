@@ -13,12 +13,12 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.hms.service.API;
-import com.example.hms.ui.doctor.DoctorActivity;
 import com.example.hms.ModelClass.LoginInfo;
 import com.example.hms.service.MyApplication;
 import com.example.hms.R;
 import com.example.hms.dao.AppDatabase;
 import com.example.hms.dao.userLoginDAO;
+import com.example.hms.ui.doctor.DoctorActivity;
 import com.example.hms.ui.patient.PatientActivity;
 
 import okhttp3.MultipartBody;
@@ -41,6 +41,8 @@ public class LoginActivity extends AppCompatActivity {
         loadingProgressBar = findViewById(R.id.loading);
         username = findViewById(R.id.username);
         password = findViewById(R.id.password);
+        username.setText("patient123");
+        password.setText("123456");
         mLogin = findViewById(R.id.button_login);
         userDao= db.userDao();
         mLogin.setOnClickListener(new View.OnClickListener() {

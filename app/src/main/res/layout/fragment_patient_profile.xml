@@ -1,22 +1,458 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.patient.profile.ProfileFragment">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
 
     <TextView
-        android:id="@+id/text_home"
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_margin="10.0dip"
+        android:gravity="center"
+        android:text="@string/registration_form"
+        android:textColor="@color/black"
+        android:textSize="@dimen/Normal_Text_Size"
+        android:textStyle="bold" />
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@color/reg_back"
+        android:padding="5.0dip">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5.0dip"
+                android:background="@color/reg_back"
+                android:orientation="horizontal"
+                android:weightSum="100.0">
+
+                <TextView
+                    android:layout_width="0.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5.0dip"
+                    android:layout_weight="25.0"
+                    android:padding="5.0dip"
+                    android:text="@string/first_name"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/Normal_Text_Size" />
+
+                <TextView
+                    android:layout_width="0.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5.0"
+                    android:gravity="start"
+                    android:text="*"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/red"
+                    android:textSize="@dimen/Normal_Text_Size"
+                    android:textStyle="bold" />
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/met_first_name"
+                    android:layout_width="0.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="70.0"
+                    android:hint="Enter Your First Name"
+                    android:padding="5.0dip" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5.0dip"
+                android:background="@color/reg_back"
+                android:orientation="horizontal"
+                android:weightSum="100.0">
+
+                <TextView
+                    android:layout_width="0.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5.0dip"
+                    android:layout_weight="25.0"
+                    android:padding="5.0dip"
+                    android:text="@string/last_name"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/Normal_Text_Size" />
+
+                <TextView
+                    android:layout_width="0.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5.0"
+                    android:gravity="start"
+                    android:text="*"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/red"
+                    android:textSize="@dimen/Normal_Text_Size"
+                    android:textStyle="bold" />
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/met_last_name"
+                    android:layout_width="0.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="70.0"
+                    android:hint="@string/enter_your_last_name"
+                    android:padding="5.0dip" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5.0dip"
+                android:background="@color/reg_back"
+                android:orientation="horizontal"
+                android:weightSum="100.0">
+
+                <TextView
+                    android:layout_width="0.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5.0dip"
+                    android:layout_weight="25.0"
+                    android:padding="5.0dip"
+                    android:text="@string/email"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/Normal_Text_Size" />
+
+                <TextView
+                    android:layout_width="0.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5.0"
+                    android:gravity="start"
+                    android:text="*"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/red"
+                    android:textSize="@dimen/Normal_Text_Size"
+                    android:textStyle="bold" />
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/met_reg_email"
+                    android:layout_width="0.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="70.0"
+                    android:enabled="false"
+                    android:hint="@string/enter_your_email_address"
+                    android:inputType="textEmailAddress"
+                    android:padding="5.0dip" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5.0dip"
+                android:background="@color/reg_back"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                android:weightSum="100.0">
+
+                <TextView
+                    android:layout_width="0.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5.0dip"
+                    android:layout_weight="25.0"
+                    android:padding="5.0dip"
+                    android:text="@string/Phone"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/Normal_Text_Size" />
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/met_phone_number"
+                    android:layout_width="0.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="75.0"
+                    android:hint="@string/enter_your_phone_number"
+                    android:inputType="number"
+                    android:padding="5.0dip" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5.0dip"
+                android:background="@color/reg_back"
+                android:orientation="horizontal"
+                android:weightSum="100.0">
+
+                <TextView
+                    android:layout_width="0.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5.0dip"
+                    android:layout_weight="25.0"
+                    android:padding="5.0dip"
+                    android:text="@string/mobile"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/Normal_Text_Size" />
+
+                <TextView
+                    android:layout_width="0.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5.0"
+                    android:gravity="start"
+                    android:text="*"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/red"
+                    android:textSize="@dimen/Normal_Text_Size"
+                    android:textStyle="bold" />
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/met_mobile_number"
+                    android:layout_width="0.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="70.0"
+                    android:hint="@string/enter_your_mobile_number"
+                    android:inputType="number"
+                    android:padding="5.0dip" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5.0dip"
+                android:background="@color/reg_back"
+                android:orientation="horizontal"
+                android:weightSum="100.0">
+
+                <TextView
+                    android:layout_width="0.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5.0dip"
+                    android:layout_weight="25.0"
+                    android:padding="5.0dip"
+                    android:text="@string/blood_group"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/Normal_Text_Size" />
+
+                <TextView
+                    android:layout_width="0.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5.0"
+                    android:gravity="start"
+                    android:text="*"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/red"
+                    android:textSize="@dimen/Normal_Text_Size"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:id="@+id/sp_blood_group"
+                    android:layout_width="0.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="70.0"
+                    android:padding="5.0dip"
+                    android:spinnerMode="dialog" />
+                />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5.0dip"
+                android:background="@color/reg_back"
+                android:orientation="horizontal"
+                android:weightSum="100.0">
+
+                <TextView
+                    android:layout_width="0.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="25.0"
+                    android:padding="5.0dip"
+                    android:text="@string/gender"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/Normal_Text_Size" />
+
+                <Spinner
+                    android:id="@+id/sp_gender"
+                    android:layout_width="0.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="75.0"
+                    android:padding="5.0dip"
+                    android:spinnerMode="dialog" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5.0dip"
+                android:background="@color/reg_back"
+                android:orientation="horizontal"
+                android:weightSum="100.0">
+
+                <TextView
+                    android:layout_width="0.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5.0dip"
+                    android:layout_weight="30.0"
+                    android:padding="5.0dip"
+                    android:text="@string/date_of_birth"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/Normal_Text_Size" />
+
+                <TextView
+                    android:layout_width="0.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5.0"
+                    android:gravity="start"
+                    android:text="*"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/red"
+                    android:textSize="@dimen/Normal_Text_Size"
+                    android:textStyle="bold" />
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/met_dob"
+                    android:layout_width="0.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="70.0"
+                    android:focusableInTouchMode="false"
+                    android:hint="@string/select_your_date_of_birth"
+                    android:padding="5.0dip" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5.0dip"
+                android:background="@color/reg_back"
+                android:orientation="horizontal"
+                android:weightSum="100.0">
+
+                <TextView
+                    android:layout_width="0.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="40.0"
+                    android:padding="5.0dip"
+                    android:text="@string/Picture"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/Normal_Text_Size" />
+
+                <ImageView
+                    android:id="@+id/patientImage"
+                    android:layout_width="0.0dip"
+                    android:layout_height="70.0dip"
+                    android:layout_margin="5.0dip"
+                    android:layout_weight="20.0"
+
+                    android:padding="5.0dip" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_select_pic"
+                    android:layout_width="0.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="30.0"
+                    android:backgroundTint="#009688"
+                    android:gravity="center"
+                    android:hint="@string/change_picture"
+                    android:textColorHint="@color/white"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_pic_name"
+                    android:layout_width="0.0dip"
+                    android:layout_height="0.0dip"
+                    android:layout_weight="0.0"
+                    android:text="@string/no_file_chooosen"
+                    android:textColor="@color/black"
+                    android:textSize="10.0dip" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5.0dip"
+                android:background="@color/reg_back"
+                android:orientation="horizontal"
+                android:weightSum="100.0">
+
+                <TextView
+                    android:layout_width="0.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5.0dip"
+                    android:layout_weight="25.0"
+                    android:padding="5.0dip"
+                    android:text="@string/Address"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/Normal_Text_Size" />
+
+                <TextView
+                    android:layout_width="0.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5.0"
+                    android:gravity="start"
+                    android:text="*"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/red"
+                    android:textSize="@dimen/Normal_Text_Size"
+                    android:textStyle="bold" />
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/met_address"
+                    android:layout_width="0.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="70.0"
+                    android:hint="@string/enter_your_address"
+                    android:padding="5.0dip" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5.0dip"
+                android:background="@color/reg_back"
+                android:orientation="horizontal"
+                android:weightSum="100.0">
+
+                <TextView
+                    android:layout_width="0.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5.0dip"
+                    android:layout_weight="25.0"
+                    android:padding="5.0dip"
+                    android:text="@string/password"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/Normal_Text_Size" />
+
+                <TextView
+                    android:layout_width="0.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="5.0"
+                    android:gravity="start"
+                    android:text="*"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/red"
+                    android:textSize="@dimen/Normal_Text_Size"
+                    android:textStyle="bold" />
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/met_reg_password"
+                    android:layout_width="0.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="70.0"
+                    android:hint="@string/enter_your_password_address"
+                    android:inputType="textPassword"
+                    android:padding="5.0dip" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btn_update"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10.0dip"
+                android:layout_marginBottom="15.0dip"
+                android:background="@drawable/login_button_style"
+                android:gravity="center"
+                android:hint="@string/update"
+                android:paddingLeft="65.0dip"
+                android:paddingRight="65.0dip"
+                android:textColorHint="@color/white" />
+        </LinearLayout>
+    </ScrollView>
+</FrameLayout>
