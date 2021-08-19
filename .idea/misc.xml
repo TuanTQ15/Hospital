@@ -15,6 +15,8 @@
         <entry key="..\:/Users/Admin/AndroidStudioProjects/Hospital/app/src/main/res/drawable/button_bg.xml" value="0.14635416666666667" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/Hospital/app/src/main/res/drawable/ic_add_colorful.xml" value="0.16302083333333334" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/Hospital/app/src/main/res/drawable/ic_baseline_email_24.xml" value="0.14635416666666667" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/Hospital/app/src/main/res/drawable/ic_bed.xml" value="0.14635416666666667" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/Hospital/app/src/main/res/drawable/ic_calendar.xml" value="0.14635416666666667" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/Hospital/app/src/main/res/drawable/ic_call_back.xml" value="0.16302083333333334" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/Hospital/app/src/main/res/drawable/ic_call_back_0.xml" value="0.14635416666666667" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/Hospital/app/src/main/res/drawable/ic_call_black_24dp.xml" value="0.14635416666666667" />
@@ -24,25 +26,34 @@
         <entry key="..\:/Users/Admin/AndroidStudioProjects/Hospital/app/src/main/res/drawable/ic_launcher_background.xml" value="0.14635416666666667" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/Hospital/app/src/main/res/drawable/ic_location_on_black_24dp.xml" value="0.14635416666666667" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/Hospital/app/src/main/res/drawable/ic_menu.xml" value="0.14635416666666667" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/Hospital/app/src/main/res/drawable/ic_person_vector.xml" value="0.15677083333333333" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/Hospital/app/src/main/res/drawable/login_button_style.xml" value="0.15677083333333333" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/Hospital/app/src/main/res/drawable/rounded_border_black.xml" value="0.2703125" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/Hospital/app/src/main/res/drawable/side_nav_bar.xml" value="0.14635416666666667" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/Hospital/app/src/main/res/drawable/textview_name_style.xml" value="0.2703125" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/Hospital/app/src/main/res/layout/activity_doctor.xml" value="0.13020833333333334" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/Hospital/app/src/main/res/layout/activity_doctor_info.xml" value="0.4" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/Hospital/app/src/main/res/layout/activity_login.xml" value="0.10144927536231885" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/Hospital/app/src/main/res/layout/activity_main.xml" value="0.13020833333333334" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/Hospital/app/src/main/res/layout/activity_patient.xml" value="0.1265625" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/Hospital/app/src/main/res/layout/app_bar_doctor.xml" value="0.1" />
-        <entry key="..\:/Users/Admin/AndroidStudioProjects/Hospital/app/src/main/res/layout/content_patient.xml" value="0.13020833333333334" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/Hospital/app/src/main/res/layout/app_bar_patient.xml" value="0.1265625" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/Hospital/app/src/main/res/layout/content_patient.xml" value="0.1" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/Hospital/app/src/main/res/layout/fragment_contact_us.xml" value="0.4" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/Hospital/app/src/main/res/layout/fragment_contact_us_new.xml" value="0.264" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/Hospital/app/src/main/res/layout/fragment_container_doctor.xml" value="0.13020833333333334" />
-        <entry key="..\:/Users/Admin/AndroidStudioProjects/Hospital/app/src/main/res/layout/fragment_doctor_edit_profile.xml" value="0.13020833333333334" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/Hospital/app/src/main/res/layout/fragment_doctor_edit_profile.xml" value="0.4" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/Hospital/app/src/main/res/layout/fragment_doctor_report.xml" value="0.13020833333333334" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/Hospital/app/src/main/res/layout/fragment_gallery.xml" value="0.13020833333333334" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/Hospital/app/src/main/res/layout/fragment_home.xml" value="0.13020833333333334" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/Hospital/app/src/main/res/layout/fragment_patient_dashboard.xml" value="0.264" />
-        <entry key="..\:/Users/Admin/AndroidStudioProjects/Hospital/app/src/main/res/layout/fragment_patient_prescription.xml" value="0.13020833333333334" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/Hospital/app/src/main/res/layout/fragment_patient_edit_profile.xml" value="0.264" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/Hospital/app/src/main/res/layout/fragment_patient_prescription.xml" value="0.264" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/Hospital/app/src/main/res/layout/fragment_patient_profile.xml" value="0.264" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/Hospital/app/src/main/res/layout/image_carousel_item.xml" value="0.13020833333333334" />
-        <entry key="..\:/Users/Admin/AndroidStudioProjects/Hospital/app/src/main/res/layout/layout_header_drawer.xml" value="0.13020833333333334" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/Hospital/app/src/main/res/layout/item_gender.xml" value="0.13020833333333334" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/Hospital/app/src/main/res/layout/item_spinner.xml" value="0.13020833333333334" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/Hospital/app/src/main/res/layout/layout_header_drawer.xml" value="0.176" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/Hospital/app/src/main/res/layout/nav_header_main.xml" value="0.13020833333333334" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/Hospital/app/src/main/res/layout/test.xml" value="0.13020833333333334" />
         <entry key="..\:/Users/Admin/AndroidStudioProjects/Hospital/app/src/main/res/menu/patient_activity_drawer.xml" value="0.4" />

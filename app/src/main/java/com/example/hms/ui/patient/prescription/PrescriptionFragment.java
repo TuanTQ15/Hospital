@@ -25,8 +25,6 @@ public class PrescriptionFragment extends Fragment {
 
         binding = FragmentPatientPrescriptionBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-        final TextView textView = binding.textHome;
-        textView.setText("this prescription");
         return root;
     }
 

@@ -1,6 +1,7 @@
 package com.example.hms.service;
 
 import android.app.Application;
+import android.graphics.Bitmap;
 
 import androidx.room.Room;
 

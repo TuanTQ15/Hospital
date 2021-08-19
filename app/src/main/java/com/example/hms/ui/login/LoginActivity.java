@@ -41,7 +41,7 @@ public class LoginActivity extends AppCompatActivity {
         loadingProgressBar = findViewById(R.id.loading);
         username = findViewById(R.id.username);
         password = findViewById(R.id.password);
-        username.setText("patient123");
+        username.setText("241718854");
         password.setText("123456");
         mLogin = findViewById(R.id.button_login);
         userDao= db.userDao();
@@ -49,7 +49,6 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 loadingProgressBar.setVisibility(View.VISIBLE);
-
                 String username_ = username.getText().toString().trim();
                 String password_ = password.getText().toString().trim();
                 if (TextUtils.isEmpty(username_)){
@@ -73,9 +72,8 @@ public class LoginActivity extends AppCompatActivity {
                             loadingProgressBar.setVisibility(View.GONE);
                             if(code ==200){
                                 LoginInfo userLogin =response.body();
-                                LoginInfo loginInfo = new LoginInfo(userLogin.getAccess_token(),userLogin.getAccount_role(),userLogin.getToken_type());
                                 userDao.deleteAllFromTable();
-                                userDao.insertAll(loginInfo);
+                                userDao.insertAll(userLogin);
                                 launchViewMainMenu(userLogin.getAccount_role());
                             } else if (code==403) {
                                 showNotifyLogin("Sai  mật khẩu");

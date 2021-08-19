@@ -2,37 +2,56 @@ package com.example.hms.ui.patient;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.Matrix;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.bumptech.glide.Glide;
+import com.example.hms.ModelClass.LoginInfo;
 import com.example.hms.R;
-
+import com.example.hms.dao.AppDatabase;
+import com.example.hms.dao.userLoginDAO;
 import com.example.hms.databinding.ActivityPatientBinding;
-import com.example.hms.ui.base.BaseActivity;
-
-import dagger.hilt.android.AndroidEntryPoint;
-import io.reactivex.rxjava3.disposables.CompositeDisposable;
-import io.reactivex.rxjava3.disposables.Disposable;
 import com.example.hms.databinding.LayoutHeaderDrawerBinding;
+import com.example.hms.service.MyApplication;
+import com.example.hms.ui.base.BaseActivity;
 import com.example.hms.ui.login.LoginActivity;
 import com.example.hms.ui.patient.dashboard.DashboardFragment;
 import com.example.hms.ui.patient.prescription.PrescriptionFragment;
 import com.example.hms.ui.patient.profile.ProfileFragment;
+
+import java.io.IOException;
+import java.util.Objects;
+
+import dagger.hilt.android.AndroidEntryPoint;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.disposables.Disposable;
 
 @AndroidEntryPoint
 public class PatientActivity extends BaseActivity<ActivityPatientBinding, PatientViewModel> {
 
     private ActionBar actionBar;
     private ActionBarDrawerToggle drawerToggle;
-
+    private AppDatabase db= MyApplication.getDb();
+    private userLoginDAO userDao;
     public PatientActivity() {
         super(R.layout.activity_patient);
     }
@@ -51,6 +70,7 @@ public class PatientActivity extends BaseActivity<ActivityPatientBinding, Patien
 //        drawable.setColorFilter(getResources().getColor(R.color.white) , PorterDuff.Mode.SRC_ATOP);
         actionBar.setHomeAsUpIndicator(drawable);
         headerDrawerBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.layout_header_drawer, binding.navView, false);
+        setUpNavHeader();
     }
 
     @Override
@@ -82,6 +102,25 @@ public class PatientActivity extends BaseActivity<ActivityPatientBinding, Patien
         });
     }
 
+    private void setUpNavHeader() {
+        userDao= db.userDao();
+        LoginInfo loginInfo=userDao.getLogin();
+        View header = binding.navView.getHeaderView(0);
+        TextView tvName =header.findViewById(R.id.user_name);
+        TextView email = header.findViewById(R.id.email_user);
+        ImageView imageView = header.findViewById(R.id.imageView);
+        tvName.setText(loginInfo.getFullname());
+        email.setText(loginInfo.getEmail());
+        setImage(imageView,loginInfo.getImage_url());
+    }
+    private void setImage(ImageView  imageView,String uri) {
+        try {
+            Glide.with(this).load(uri).into(imageView);
+        } catch (Exception e) {
+            imageView.setImageDrawable(this.getDrawable(R.drawable.ic_user));
+
+        }
+    }
     private <F extends Fragment> void openFragment(F fragment, String tag) {
         actionBar.setTitle(tag);
         openFragment(R.id.patient_container, fragment, tag);
@@ -189,4 +228,26 @@ public class PatientActivity extends BaseActivity<ActivityPatientBinding, Patien
         }
         return prescriptionFragment;
     }
+
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            Uri imageUri = Objects.requireNonNull(data).getData();
+            Bitmap bitmap = null;
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            if (bitmap != null) {
+                ImageView imageView= findViewById(R.id.patientImage);
+                imageView.setImageBitmap(bitmap);
+            }
+
+        } else {
+            Toast.makeText(this, "Bạn chưa chọn ảnh", Toast.LENGTH_LONG).show();
+        }
+    }
+
 }

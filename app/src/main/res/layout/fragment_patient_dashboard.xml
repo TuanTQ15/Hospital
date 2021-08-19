@@ -48,7 +48,7 @@
                         android:layout_height="65dp"
                         android:contentDescription="make an appointment"
                         android:padding="5dp"
-                        android:src="@drawable/ic_appointment_colorful" />
+                        android:src="@drawable/ic_medical_report" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -56,7 +56,7 @@
                         android:layout_margin="5dp"
                         android:gravity="center"
                         android:lines="2"
-                        android:text="Book an Appointment"
+                        android:text="Medical History"
                         android:textColor="#ff717171"
                         android:textSize="12.0sp"
                         android:textStyle="bold" />
@@ -83,7 +83,7 @@
                         android:layout_width="65dp"
                         android:layout_height="65dp"
                         android:padding="5dp"
-                        android:src="@drawable/ic_doctor_colorful" />
+                        android:src="@drawable/ic_debit_card" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -91,7 +91,7 @@
                         android:layout_margin="5dp"
                         android:gravity="center"
                         android:lines="2"
-                        android:text="Find a Doctor"
+                        android:text="Payment"
                         android:textColor="#ff717171"
                         android:textSize="12.0sp"
                         android:textStyle="bold" />
@@ -142,7 +142,7 @@
             android:orientation="horizontal">
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/documents"
+                android:id="@+id/medical_record"
                 android:layout_width="125dp"
                 android:layout_height="120dp"
                 android:layout_marginStart="10dp"
@@ -167,7 +167,7 @@
                         android:layout_margin="5dp"
                         android:gravity="center"
                         android:lines="2"
-                        android:text="Documents"
+                        android:text="Medical Record"
                         android:textColor="#ff717171"
                         android:textSize="12.0sp"
                         android:textStyle="bold" />
@@ -175,42 +175,7 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/about_us"
-                android:layout_width="125dp"
-                android:layout_height="120dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:background="@android:color/white"
-                app:cardCornerRadius="10dp"
-                app:cardElevation="0.0dip">
-
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="65dp"
-                        android:layout_height="65dp"
-                        android:padding="5dp"
-                        android:src="@drawable/ic_to_do_list_color" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:gravity="center"
-                        android:lines="2"
-                        android:text="Appointment List"
-                        android:textColor="#ff717171"
-                        android:textSize="12.0sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/upload_documents"
+                android:id="@+id/bed_infor"
                 android:layout_width="125dp"
                 android:layout_height="120dp"
                 android:layout_marginEnd="10dp"
@@ -228,7 +193,7 @@
                         android:layout_width="65dp"
                         android:layout_height="65dp"
                         android:padding="5dp"
-                        android:src="@drawable/ic_add_colorful" />
+                        android:src="@drawable/ic_bed" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -236,84 +201,7 @@
                         android:layout_margin="5dp"
                         android:gravity="center"
                         android:lines="2"
-                        android:text="Upload Documents"
-                        android:textColor="#ff717171"
-                        android:textSize="12.0sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/callAppointment"
-                android:layout_width="125dp"
-                android:layout_height="120dp"
-                android:layout_marginStart="10dp"
-                app:cardCornerRadius="10dp"
-                app:cardElevation="0.0dip">
-
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="65dp"
-                        android:layout_height="65dp"
-                        android:padding="5dp"
-                        android:src="@drawable/ic_call_center_colorful" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:gravity="center"
-                        android:lines="2"
-                        android:text="Call For Appointment"
-                        android:textColor="#ff717171"
-                        android:textSize="12.0sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/callRequest"
-                android:layout_width="125dp"
-                android:layout_height="120dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:background="@android:color/white"
-                app:cardCornerRadius="10dp"
-                app:cardElevation="0.0dip">
-
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="65dp"
-                        android:layout_height="65dp"
-                        android:padding="5dp"
-                        android:src="@drawable/ic_call_back" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:gravity="center"
-                        android:lines="2"
-                        android:text="Call Back Request"
+                        android:text="Bed Information"
                         android:textColor="#ff717171"
                         android:textSize="12.0sp"
                         android:textStyle="bold" />
@@ -324,7 +212,9 @@
                 android:id="@+id/contact_us"
                 android:layout_width="125dp"
                 android:layout_height="120dp"
+                android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
+                android:background="@android:color/white"
                 app:cardCornerRadius="10dp"
                 app:cardElevation="0.0dip">
 
@@ -353,5 +243,7 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
         </LinearLayout>
+
+
     </LinearLayout>
 </ScrollView>
