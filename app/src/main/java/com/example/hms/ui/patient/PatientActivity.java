@@ -3,8 +3,6 @@ package com.example.hms.ui.patient;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
-import android.graphics.Matrix;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,7 +10,6 @@ import android.provider.MediaStore;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,7 +22,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
-import com.example.hms.ModelClass.LoginInfo;
+import com.example.hms.ModelClass.LoginInfoModel;
 import com.example.hms.R;
 import com.example.hms.dao.AppDatabase;
 import com.example.hms.dao.userLoginDAO;
@@ -66,6 +63,7 @@ public class PatientActivity extends BaseActivity<ActivityPatientBinding, Patien
     private void backButton() {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
+
         Drawable drawable = getResources().getDrawable(R.drawable.ic_menu);
 //        drawable.setColorFilter(getResources().getColor(R.color.white) , PorterDuff.Mode.SRC_ATOP);
         actionBar.setHomeAsUpIndicator(drawable);
@@ -104,14 +102,14 @@ public class PatientActivity extends BaseActivity<ActivityPatientBinding, Patien
 
     private void setUpNavHeader() {
         userDao= db.userDao();
-        LoginInfo loginInfo=userDao.getLogin();
+        LoginInfoModel loginInfoModel =userDao.getLogin();
         View header = binding.navView.getHeaderView(0);
         TextView tvName =header.findViewById(R.id.user_name);
         TextView email = header.findViewById(R.id.email_user);
         ImageView imageView = header.findViewById(R.id.imageView);
-        tvName.setText(loginInfo.getFullname());
-        email.setText(loginInfo.getEmail());
-        setImage(imageView,loginInfo.getImage_url());
+        tvName.setText(loginInfoModel.getFullname());
+        email.setText(loginInfoModel.getEmail());
+        setImage(imageView, loginInfoModel.getImage_url());
     }
     private void setImage(ImageView  imageView,String uri) {
         try {
@@ -180,10 +178,6 @@ public class PatientActivity extends BaseActivity<ActivityPatientBinding, Patien
         super.onDestroy();
         composite.dispose();
     }
-
-    public static final String TYPE_UPDATE = "TYPE_UPDATE";
-    public static final String TYPE_ACTION = "TYPE_ACTION";
-    public static final String DATA = "DATA";
 
 
     private PrescriptionFragment prescriptionFragment = null;

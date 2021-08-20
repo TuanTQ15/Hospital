@@ -2,9 +2,10 @@ package com.example.hms.ModelClass;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class DetailPrescription {
+public class DetailPrescription implements Serializable {
     @SerializedName("MATOA")
     String prescriptionNumber;
     @SerializedName("MATHUOC")
@@ -15,13 +16,17 @@ public class DetailPrescription {
     String instructionUse;
     @SerializedName("DONGIA")
     Integer price;
+    @SerializedName("medicines")
+    MedicineModel medicine;
 
-    public DetailPrescription(String prescriptionNumber, String medicineNumber, Integer quantity, String instructionUse, Integer price) {
+    public DetailPrescription(String prescriptionNumber, String medicineNumber, Integer quantity,
+                              String instructionUse, Integer price, MedicineModel medicine) {
         this.prescriptionNumber = prescriptionNumber;
         this.medicineNumber = medicineNumber;
         this.quantity = quantity;
         this.instructionUse = instructionUse;
         this.price = price;
+        this.medicine = medicine;
     }
 
     public String getPrescriptionNumber() {
@@ -62,5 +67,13 @@ public class DetailPrescription {
 
     public void setPrice(Integer price) {
         this.price = price;
+    }
+
+    public MedicineModel getMedicine() {
+        return medicine;
+    }
+
+    public void setMedicines(MedicineModel medicine) {
+        this.medicine = medicine;
     }
 }

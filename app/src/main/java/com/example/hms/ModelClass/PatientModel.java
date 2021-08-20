@@ -2,7 +2,7 @@ package com.example.hms.ModelClass;
 
 import com.google.gson.annotations.SerializedName;
 
-public class PatientModel {
+public class PatientModel  {
     @SerializedName("CMND")
     private String CMND;
     @SerializedName("HOTEN")

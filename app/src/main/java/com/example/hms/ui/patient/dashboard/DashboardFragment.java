@@ -21,18 +21,15 @@ import com.example.hms.R;
 public class DashboardFragment extends Fragment {
 
     private FragmentPatientDashboardBinding binding;
-    private CardView contactUs;
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         binding = FragmentPatientDashboardBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-        setControl();
         setEvent();
         return root;
     }
 
     private void setEvent() {
-        contactUs.setOnClickListener(v -> {
+        binding.contactUs.setOnClickListener(v -> {
             ContactUsFragment nextFrag= new ContactUsFragment();
             getActivity().getSupportFragmentManager().beginTransaction()
                     .replace(((ViewGroup)getView().getParent()).getId(), nextFrag, getString(R.string.contact_us))
@@ -41,9 +38,6 @@ public class DashboardFragment extends Fragment {
         });
     }
 
-    private void setControl() {
-        contactUs=binding.contactUs;
-    }
 
     @Override
     public void onDestroyView() {

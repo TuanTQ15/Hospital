@@ -1,17 +1,26 @@
 package com.example.hms.ModelClass;
 
+import androidx.annotation.NonNull;
 import androidx.room.PrimaryKey;
 
+import com.example.hms.util.DateUtil;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+import java.text.Format;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
 
-public class Prescription {
+public class PrescriptionModel implements Serializable {
+
     @SerializedName("MATOA")
     @PrimaryKey
     String prescriptionNumber;
-    @SerializedName("NGAYLAP")
-    long dateCreated;
     @SerializedName("YLENH")
     String medicalInstruction;
     @SerializedName("CTKHAM_ID")
@@ -19,9 +28,8 @@ public class Prescription {
     @SerializedName("detailPrescriptions")
     List<DetailPrescription> detailPrescriptionList;
 
-    public Prescription(String prescriptionNumber, long dateCreated, String medicalInstruction, Integer detailMedicalExamID, List<DetailPrescription> detailPrescriptionList) {
+    public PrescriptionModel(String prescriptionNumber, String medicalInstruction, Integer detailMedicalExamID, List<DetailPrescription> detailPrescriptionList) {
         this.prescriptionNumber = prescriptionNumber;
-        this.dateCreated = dateCreated;
         this.medicalInstruction = medicalInstruction;
         this.detailMedicalExamID = detailMedicalExamID;
         this.detailPrescriptionList = detailPrescriptionList;
@@ -33,14 +41,6 @@ public class Prescription {
 
     public void setPrescriptionNumber(String prescriptionNumber) {
         this.prescriptionNumber = prescriptionNumber;
-    }
-
-    public long getDateCreated() {
-        return dateCreated;
-    }
-
-    public void setDateCreated(long dateCreated) {
-        this.dateCreated = dateCreated;
     }
 
     public String getMedicalInstruction() {

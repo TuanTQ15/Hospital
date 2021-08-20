@@ -1,9 +1,12 @@
 package com.example.hms.service;
 
-import com.example.hms.ModelClass.LoginInfo;
+import com.example.hms.ModelClass.LoginInfoModel;
 import com.example.hms.ModelClass.PatientModel;
+import com.example.hms.ModelClass.PrescriptionModel;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
+import java.util.List;
 
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -25,9 +28,13 @@ public interface API {
 
 
     @POST("api/login")
-    Call<LoginInfo> login(@Body RequestBody requestBody);
+    Call<LoginInfoModel> login(@Body RequestBody requestBody);
     @GET("api/patients/{CMND}")
     Call<PatientModel> getPatient(@Path("CMND") String CMND);
     @PUT("api/patients/{CMND}")
     Call<PatientModel> updatePatient(@Path("CMND") String CMND, @Body PatientModel patient);
+
+
+    @GET("api/prescriptions")
+    Call<List<PrescriptionModel>> getAllPrescription();
 }

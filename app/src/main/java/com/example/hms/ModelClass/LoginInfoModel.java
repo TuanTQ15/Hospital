@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.Serializable;
 
 @Entity(tableName = "userLogin")
-public class LoginInfo implements Serializable {
+public class LoginInfoModel implements Serializable {
     @PrimaryKey
     @NotNull
     @ColumnInfo(name="access_token")
@@ -36,7 +36,7 @@ public class LoginInfo implements Serializable {
     @ColumnInfo(name = "image_url")
     private String image_url;
 
-    public LoginInfo(@NotNull String access_token, String account_role, String token_type, String username, String fullname, String email, String image_url) {
+    public LoginInfoModel(@NotNull String access_token, String account_role, String token_type, String username, String fullname, String email, String image_url) {
         this.access_token = access_token;
         this.account_role = account_role;
         this.token_type = token_type;

@@ -12,8 +12,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.hms.ModelClass.LoginInfoModel;
 import com.example.hms.service.API;
-import com.example.hms.ModelClass.LoginInfo;
 import com.example.hms.service.MyApplication;
 import com.example.hms.R;
 import com.example.hms.dao.AppDatabase;
@@ -65,13 +65,13 @@ public class LoginActivity extends AppCompatActivity {
                             .addFormDataPart("username", username_)
                             .addFormDataPart("password", password_)
                             .build();
-                    API.apiService.login(requestBody).enqueue(new Callback<LoginInfo>() {
+                    API.apiService.login(requestBody).enqueue(new Callback<LoginInfoModel>() {
                         @Override
-                        public void onResponse(Call<LoginInfo> call, Response<LoginInfo> response) {
+                        public void onResponse(Call<LoginInfoModel> call, Response<LoginInfoModel> response) {
                             int code=response.code();
                             loadingProgressBar.setVisibility(View.GONE);
                             if(code ==200){
-                                LoginInfo userLogin =response.body();
+                                LoginInfoModel userLogin =response.body();
                                 userDao.deleteAllFromTable();
                                 userDao.insertAll(userLogin);
                                 launchViewMainMenu(userLogin.getAccount_role());
@@ -83,7 +83,7 @@ public class LoginActivity extends AppCompatActivity {
                         }
 
                         @Override
-                        public void onFailure(Call<LoginInfo> call, Throwable t) {
+                        public void onFailure(Call<LoginInfoModel> call, Throwable t) {
                             loadingProgressBar.setVisibility(View.GONE);
                             showNotifyLogin("Đăng nhập thất bại, kiểm tra lại kết nối");
                         }

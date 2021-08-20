@@ -5,17 +5,17 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 
-import com.example.hms.ModelClass.LoginInfo;
+import com.example.hms.ModelClass.LoginInfoModel;
 
 
 @Dao
 public interface userLoginDAO {
     @Query("select * from userLogin")
-    LoginInfo getLogin();
+    LoginInfoModel getLogin();
     @Insert
-    void insertAll(LoginInfo... loginInfo);
+    void insertAll(LoginInfoModel... loginInfoModel);
     @Query("DELETE FROM userLogin")
     void deleteAllFromTable();
     @Delete
-    void delete(LoginInfo loginInfo);
+    void delete(LoginInfoModel loginInfoModel);
 }

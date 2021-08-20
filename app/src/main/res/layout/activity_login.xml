@@ -44,7 +44,7 @@
                         android:layout_centerHorizontal="true"
                         android:fontFamily="@font/overpass_semibold"
                         android:text="Login"
-                        android:textColor="@color/colorPrimaryDark"
+                        android:textColor="@color/teal_700"
                         android:textSize="25sp" />
 
 
@@ -109,7 +109,7 @@
                 android:paddingRight="40dp"
                 android:focusable="true"
                 android:clickable="true"
-                app:backgroundTint="#3F51B5"
+                app:backgroundTint="#009688"
                 android:text="Login"
                 android:textColor="#fff"
                 />
