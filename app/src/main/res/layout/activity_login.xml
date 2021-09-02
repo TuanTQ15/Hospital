@@ -59,9 +59,10 @@
                         android:layout_marginTop="8dp">
 
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/username"
+                            android:id="@+id/user_name"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+
                             android:fontFamily="@font/overpass_semibold"
                             android:hint="@string/enter_username"
                             tools:ignore="TouchTargetSizeCheck" />
@@ -77,7 +78,7 @@
                         app:endIconMode="password_toggle">
 
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/password"
+                            android:id="@+id/pass"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:fontFamily="@font/overpass_semibold"

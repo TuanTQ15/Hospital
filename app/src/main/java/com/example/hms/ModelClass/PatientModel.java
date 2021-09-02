@@ -1,8 +1,11 @@
 package com.example.hms.ModelClass;
 
+import com.example.hms.util.DateUtil;
 import com.google.gson.annotations.SerializedName;
 
-public class PatientModel  {
+import java.io.Serializable;
+
+public class PatientModel implements Serializable {
     @SerializedName("CMND")
     private String CMND;
     @SerializedName("HOTEN")
@@ -84,8 +87,8 @@ public class PatientModel  {
         this.GIOITINH = GIOITINH;
     }
 
-    public long getNGAYSINH() {
-        return NGAYSINH;
+    public String getNGAYSINH() {
+        return DateUtil.convertTime(this.NGAYSINH,"dd/MM/yyyy");
     }
 
     public void setNGAYSINH(long NGAYSINH) {

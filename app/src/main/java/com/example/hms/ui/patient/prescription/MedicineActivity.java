@@ -40,11 +40,7 @@ public class MedicineActivity extends AppCompatActivity {
             tvMedicineName.setText(medicine.getMedicineName());
             tvUses.setText(medicine.getUses());
             tvDescription.setText(medicine.getDescription());
-            try {
-                Glide.with(this).load(medicine.getImage_url()).into(imageView);
-            } catch (Exception e) {
-
-            }
+           
         }
         backId.setOnClickListener(v -> onBackPressed());
     }

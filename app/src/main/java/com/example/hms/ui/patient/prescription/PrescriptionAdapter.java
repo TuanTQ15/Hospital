@@ -43,7 +43,6 @@ public class PrescriptionAdapter extends
         // for any view that will be set as you render a row
         public TextView tvMedicalExam;
         public TextView tvPrescriptionNumber;
-        public TextView tvDate;
         public TextView tvPInstruction;
         public CardView prescriptionContainer;
         private ItemClick mItemClick;
@@ -55,15 +54,12 @@ public class PrescriptionAdapter extends
             // to access the context from any ViewHolder instance.
             super(itemView);
             mItemClick = itemClick;
-            tvMedicalExam = itemView.findViewById(R.id.medical_exam);
             tvPrescriptionNumber = itemView.findViewById(R.id.prescription_number);
             tvPInstruction = itemView.findViewById(R.id.instruction);
             prescriptionContainer = itemView.findViewById(R.id.container);
         }
 
         public void bind(PrescriptionModel prescription) {
-
-            tvMedicalExam.setText(String.valueOf(prescription.getDetailMedicalExamID()));
             tvPrescriptionNumber.setText(prescription.getPrescriptionNumber());
             tvPInstruction.setText(prescription.getMedicalInstruction());
             prescriptionContainer.setOnClickListener((v) -> {
@@ -100,7 +96,6 @@ public class PrescriptionAdapter extends
 
     public interface ItemClick {
         void click(PrescriptionModel contact);
-
     }
 
     public void deleteContact(String message, PrescriptionModel contact, View v) {

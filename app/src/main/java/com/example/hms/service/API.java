@@ -1,8 +1,12 @@
 package com.example.hms.service;
 
+import com.example.hms.ModelClass.EmployeeModel;
 import com.example.hms.ModelClass.LoginInfoModel;
+import com.example.hms.ModelClass.MedicalRecordModel;
 import com.example.hms.ModelClass.PatientModel;
+import com.example.hms.ModelClass.PaymentModel;
 import com.example.hms.ModelClass.PrescriptionModel;
+import com.example.hms.ModelClass.UserPatient;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -31,10 +35,22 @@ public interface API {
     Call<LoginInfoModel> login(@Body RequestBody requestBody);
     @GET("api/patients/{CMND}")
     Call<PatientModel> getPatient(@Path("CMND") String CMND);
+    @GET("api/patients/login/{CMND}")
+    Call<UserPatient> getLoginPatient(@Path("CMND") String CMND);
+
     @PUT("api/patients/{CMND}")
     Call<PatientModel> updatePatient(@Path("CMND") String CMND, @Body PatientModel patient);
 
 
     @GET("api/prescriptions")
     Call<List<PrescriptionModel>> getAllPrescription();
+
+    @GET("api/medicalrecords/{CMND}")
+    Call<List<MedicalRecordModel>> getAllMedicalRecord(@Path("CMND") String CMND);
+
+    @GET("api/employees")
+    Call <List<EmployeeModel>> getAllEmployees();
+
+    @GET("api/patients/payment/{CMND}")
+    Call <PaymentModel> getHospitalFee(@Path("CMND") String CMND);
 }

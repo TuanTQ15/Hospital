@@ -1,5 +1,6 @@
 package com.example.hms.ui.patient.dashboard;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,15 +9,16 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
 
 import com.example.hms.databinding.FragmentPatientDashboardBinding;
 
 import io.reactivex.rxjava3.subjects.PublishSubject;
 import com.example.hms.R;
+import com.example.hms.ui.patient.dashboard.medicalhistory.MedicalHistoryActivity;
+import com.example.hms.ui.patient.dashboard.medicalrecord.MedicalRecordActivity;
+import com.example.hms.ui.patient.dashboard.payment.PaymentActivity;
 
 public class DashboardFragment extends Fragment {
 
@@ -35,6 +37,18 @@ public class DashboardFragment extends Fragment {
                     .replace(((ViewGroup)getView().getParent()).getId(), nextFrag, getString(R.string.contact_us))
                     .addToBackStack(getString(R.string.dashboard))
                     .commit();
+        });
+        binding.medicalHistory.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), MedicalHistoryActivity.class);
+            startActivity(intent);
+        });
+        binding.medicalRecord.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), MedicalRecordActivity.class);
+            startActivity(intent);
+        });
+        binding.payment.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), PaymentActivity.class);
+            startActivity(intent);
         });
     }
 

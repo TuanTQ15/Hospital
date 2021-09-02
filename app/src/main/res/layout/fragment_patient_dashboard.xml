@@ -61,7 +61,7 @@
                         android:layout_margin="5dp"
                         android:gravity="center"
                         android:lines="2"
-                        android:text="Medical History"
+                        android:text="Medical Exam History"
                         android:textColor="#ff717171"
                         android:textSize="12.0sp"
                         android:textStyle="bold" />

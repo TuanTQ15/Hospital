@@ -13,9 +13,8 @@
     </string-array>
     <string-array name="gender">
         <item>-Select One-</item>
-        <item>Male</item>
-        <item>Female</item>
-        <item>Other</item>
+        <item>Nam</item>
+        <item>Nữ</item>
     </string-array>
     <array name="rect_color">
         <item>@color/color_blue</item>

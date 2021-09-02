@@ -1,5 +1,7 @@
 package com.example.hms.ui.patient;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
@@ -7,6 +9,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -17,17 +20,24 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.widget.SearchView;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.example.hms.ModelClass.LoginInfoModel;
+import com.example.hms.ModelClass.PrescriptionModel;
 import com.example.hms.R;
 import com.example.hms.dao.AppDatabase;
 import com.example.hms.dao.userLoginDAO;
 import com.example.hms.databinding.ActivityPatientBinding;
 import com.example.hms.databinding.LayoutHeaderDrawerBinding;
+import com.example.hms.service.API;
 import com.example.hms.service.MyApplication;
 import com.example.hms.ui.base.BaseActivity;
 import com.example.hms.ui.login.LoginActivity;
@@ -36,11 +46,16 @@ import com.example.hms.ui.patient.prescription.PrescriptionFragment;
 import com.example.hms.ui.patient.profile.ProfileFragment;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import dagger.hilt.android.AndroidEntryPoint;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 @AndroidEntryPoint
 public class PatientActivity extends BaseActivity<ActivityPatientBinding, PatientViewModel> {
@@ -63,7 +78,6 @@ public class PatientActivity extends BaseActivity<ActivityPatientBinding, Patien
     private void backButton() {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
-
         Drawable drawable = getResources().getDrawable(R.drawable.ic_menu);
 //        drawable.setColorFilter(getResources().getColor(R.color.white) , PorterDuff.Mode.SRC_ATOP);
         actionBar.setHomeAsUpIndicator(drawable);
@@ -98,7 +112,9 @@ public class PatientActivity extends BaseActivity<ActivityPatientBinding, Patien
             binding.activityMainDrawer.closeDrawer(binding.navView);
             return drawerToggle.onOptionsItemSelected(item);
         });
+
     }
+
 
     private void setUpNavHeader() {
         userDao= db.userDao();
@@ -111,13 +127,22 @@ public class PatientActivity extends BaseActivity<ActivityPatientBinding, Patien
         email.setText(loginInfoModel.getEmail());
         setImage(imageView, loginInfoModel.getImage_url());
     }
-    private void setImage(ImageView  imageView,String uri) {
-        try {
-            Glide.with(this).load(uri).into(imageView);
-        } catch (Exception e) {
-            imageView.setImageDrawable(this.getDrawable(R.drawable.ic_user));
 
-        }
+    private void setImage(ImageView  imageView,String uri) {
+        Glide.with(this).load(uri)
+                .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
+                .error(R.drawable.default_user)
+                .listener(new RequestListener<Drawable>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                        return false;
+                    }
+                }).into(imageView);
     }
     private <F extends Fragment> void openFragment(F fragment, String tag) {
         actionBar.setTitle(tag);
@@ -168,9 +193,17 @@ public class PatientActivity extends BaseActivity<ActivityPatientBinding, Patien
         twiceTimeToExit();
         if (getFragmentManager().getBackStackEntryCount() > 0) {
             getFragmentManager().popBackStack();
+
         } else {
             super.onBackPressed();
         }
+
+    }
+
+    @Override
+    protected void onResume() {
+        setUpNavHeader();
+        super.onResume();
     }
 
     @Override

@@ -5,9 +5,9 @@
     <application
         android:allowBackup="true"
         android:name=".service.MyApplication"
-
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
@@ -16,6 +16,11 @@
         <activity android:name=".ui.patient.PatientActivity" />
         <activity android:name=".ui.patient.prescription.DetailPrescriptionActivity"/>
         <activity android:name=".ui.patient.prescription.MedicineActivity"/>
+        <activity android:name=".ui.patient.dashboard.medicalhistory.MedicalHistoryActivity"/>
+        <activity android:name=".ui.patient.dashboard.medicalrecord.MedicalRecordActivity"/>
+        <activity android:name=".ui.patient.dashboard.medicalrecord.DetailMedicalRecordActivity"/>
+        <activity android:name=".ui.patient.dashboard.payment.PaymentActivity"/>
+        <activity android:name=".ui.patient.dashboard.payment.SuccessActivity"/>
         <activity
             android:name="com.example.hms.ui.login.LoginActivity"
             android:label="@string/app_name"

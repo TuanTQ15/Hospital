@@ -43,12 +43,5 @@ public abstract class BaseActivity<VB extends ViewDataBinding, VM extends ViewMo
             actionBar.setTitle(tag);
         }
         fragmentManager.beginTransaction().replace(containerId, fragment, tag).addToBackStack(tag).commit();
-//        Fragment fragmentByTag = fragmentManager.findFragmentByTag(tag);
-//        if(fragmentByTag == null){
-//            fragmentManager.beginTransaction().add(R.id.main, fragment, tag).addToBackStack(tag).commit();
-//        }else{
-//            fragmentManager.beginTransaction().hide(fragmentByTag).commit();
-//            fragmentManager.beginTransaction().show(fragment).commit();
-//        }
     }
 }

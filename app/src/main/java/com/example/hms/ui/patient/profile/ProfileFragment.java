@@ -12,14 +12,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
+import com.example.hms.ModelClass.LoginInfoModel;
 import com.example.hms.ModelClass.PatientModel;
+import com.example.hms.ModelClass.UserPatient;
 import com.example.hms.R;
 import com.example.hms.dao.AppDatabase;
 import com.example.hms.dao.userLoginDAO;
@@ -27,6 +35,7 @@ import com.example.hms.databinding.FragmentPatientEditProfileBinding;
 import com.example.hms.service.API;
 import com.example.hms.service.MyApplication;
 import com.example.hms.ui.patient.PatientActivity;
+import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
 
 import java.io.ByteArrayOutputStream;
@@ -76,7 +85,7 @@ public class ProfileFragment extends Fragment {
             String phoneNumber = binding.metMobileNumber.getText().toString().trim();
             String email = binding.metEmail.getText().toString().trim();
             String gender = binding.spGender.getSelectedItem().toString().trim();
-            long birthDay = convertTimeToLong(binding.metDob.getText().toString().trim());
+            long birthDay = convertTimeToLong(binding.metDob.getText().toString().trim())+1000;
             String imageBase64="data:image/png;base64,"+convertBase64(((BitmapDrawable)binding.patientImage.getDrawable()).getBitmap());
             String address= binding.metAddress.getText().toString().trim();
             String HealthInsuranceCode=binding.healthInsuranceCode.getText().toString().trim();
@@ -89,21 +98,65 @@ public class ProfileFragment extends Fragment {
                     int code=response.code();
                     loadingProgressBar.setVisibility(View.GONE);
                     if(code!=200 && response.body()==null){
-                        showNotify("Lỗi kết nối server");
+                        showNotify("Lỗi kết nối server",false);
                     }else{
-                        showNotify("Cập nhật thông tin thành công");
+                        getLoginInfo(response.body().getCMND(),response.body().getEMAIL());
+                        showNotify("Cập nhật thông tin thành công",true);
                     }
 
                 }
 
                 @Override
                 public void onFailure(Call<PatientModel> call, Throwable t) {
-                    showNotify("Kiểm tra lại Interet");
+                    showNotify("Kiểm tra lại Internet",false);
                     loadingProgressBar.setVisibility(View.GONE);
                 }
             });
         }
     }
+    private void setNav(String cmnd,String email, String image_url){
+        NavigationView navigationView= getActivity().findViewById(R.id.nav_view);
+        View header = navigationView.getHeaderView(0);
+        TextView tvName =header.findViewById(R.id.user_name);
+        TextView tvemail = header.findViewById(R.id.email_user);
+        ImageView imageView = header.findViewById(R.id.imageView);
+        tvName.setText(cmnd);
+        tvemail.setText(email);
+        setImage(imageView, image_url);
+    }
+    private void setImage(ImageView  imageView,String uri) {
+        Glide.with(this).load(uri)
+                .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
+                .error(R.drawable.default_user)
+                .listener(new RequestListener<Drawable>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                        return false;
+                    }
+                }).into(imageView);
+    }
+    private void getLoginInfo(String cmnd,String email) {
+        userDao= db.userDao();
+        API.apiService.getLoginPatient(userDao.getLogin().getUsername()).enqueue(new Callback<UserPatient>() {
+            @Override
+            public void onResponse(Call<UserPatient> call, Response<UserPatient> response) {
+                if(response.body()!=null&response.code()==200){
+                    setNav(cmnd,email,response.body().getImage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserPatient> call, Throwable t) {
+                System.out.println("");
+            }
+        });
+    }
+
     private byte[] imageToByteArray(Bitmap bitmapImage) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmapImage.compress(Bitmap.CompressFormat.JPEG, 20, baos);
@@ -133,7 +186,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onFailure(Call<PatientModel> call, Throwable t) {
                 loadingProgressBar.setVisibility(View.GONE);
-                showNotify("Kết nối thất bại, kiểm tra lại kết nối");
+                showNotify("Kết nối thất bại, kiểm tra lại kết nối",false);
             }
         });
 
@@ -159,7 +212,7 @@ public class ProfileFragment extends Fragment {
             binding.metIdentityNumber.setText(patient.getCMND());
             binding.metFullName.setText(patient.getHOTEN());
             binding.metAddress.setText(patient.getDIACHI());
-            binding.metDob.setText(convertTime(patient.getNGAYSINH()));
+            binding.metDob.setText(patient.getNGAYSINH());
             binding.metEmail.setText(patient.getEMAIL());
             binding.metMobileNumber.setText(patient.getSODIENTHOAI());
             setUpGenderSpinner();
@@ -231,12 +284,23 @@ public class ProfileFragment extends Fragment {
         return true;
     }
     private void setImage() {
-        try {
-            Glide.with(getContext()).load(patient.getHINHANH()).into(binding.patientImage);
-        } catch (Exception e) {
-            binding.patientImage.setImageDrawable(getContext().getDrawable(R.drawable.ic_person_vector));
+        userDao= db.userDao();
+        String url=userDao.getLogin().getImage_url();
+        Glide.with(getContext()).load(url)
+                .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
+                .error(R.drawable.default_user)
+                .listener(new RequestListener<Drawable>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                        return false;
+                    }
 
-        }
+                    @Override
+                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                        return false;
+                    }
+                }).into(binding.patientImage);
+
     }
 
     private void setUpGenderSpinner(){
@@ -248,12 +312,10 @@ public class ProfileFragment extends Fragment {
     private int getIndexGender(){
         String gender=patient.getGIOITINH();
         switch (gender){
-            case "Male":
+            case "Nam":
                 return 1;
-            case "Female":
+            case "Nữ":
                 return 2;
-            case "Other":
-                return 3;
         }
        return 0;
     }
@@ -297,10 +359,13 @@ public class ProfileFragment extends Fragment {
         }
         return selectPublisher;
     }
-    private void showNotify(String message) {
+    private void showNotify(String message, boolean isSuccess) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.AlertDialogCustom);
         builder.setMessage(message);
         builder.setPositiveButton("OK",(dialogInterface,i)->{
+            if(isSuccess){
+                getActivity().getSupportFragmentManager().popBackStack();
+            }else
             dialogInterface.dismiss();
         });
         AlertDialog alertDialog = builder.create(); //create

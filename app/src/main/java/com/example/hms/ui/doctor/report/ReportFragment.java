@@ -1,5 +1,7 @@
 package com.example.hms.ui.doctor.report;
 
+import android.app.ProgressDialog;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,19 +16,36 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.hms.databinding.FragmentDoctorReportBinding;
 
+import org.eazegraph.lib.charts.PieChart;
+import org.eazegraph.lib.models.PieModel;
+
+import java.util.List;
+
 import io.reactivex.rxjava3.subjects.PublishSubject;
 
 public class ReportFragment extends Fragment {
 
     private FragmentDoctorReportBinding binding;
+    TextView tvR, tvPython, tvCPP, tvJava;
+    private ProgressDialog dialog;
 
     public View onCreateView(@NonNull LayoutInflater inflater,ViewGroup container, Bundle savedInstanceState) {
 
         binding = FragmentDoctorReportBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-
-        final TextView textView = binding.textGallery;
-        textView.setText("this report");
+        binding.tvR.setText(String.valueOf(59));
+        binding.tvPython.setText(String.valueOf(93));
+        binding.tvCPP.setText(String.valueOf(23));
+        binding.tvJava.setText(String.valueOf(61));
+        binding.piechart.addPieSlice(new PieModel("Tim",59,
+                Color.parseColor("#FFA726")));
+        binding.piechart.addPieSlice(new PieModel("Lâm Sàng",93,
+                Color.parseColor("#66BB6A")));
+        binding.piechart.addPieSlice(new PieModel("Mắt",23,
+                Color.parseColor("#EF5350")));
+        binding.piechart.addPieSlice(new PieModel("Truyền Nhiễm",61,
+                Color.parseColor("#29B6F6")));
+        binding.piechart.startAnimation();
         return root;
     }
 

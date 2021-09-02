@@ -7,6 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
+
         android:foreground="@drawable/ripple"
         app:cardCornerRadius="16dp">
 
@@ -14,32 +15,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="#82D3CB"
             android:animateLayoutChanges="true"
             android:foreground="?android:attr/selectableItemBackground"
-            android:background="@drawable/side_nav_bar"
             android:orientation="vertical"
             android:padding="16dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="10dp">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="3"
-                    android:text="Mecdical Exam ID: "
-                    android:textColor="@color/black" />
-
-                <TextView
-                    android:id="@+id/medical_exam"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="7"
-                    android:textColor="@color/black" />
-            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -72,7 +52,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
-                    android:text="Instruction: "
+                    android:text="Medical Instruction: "
                     android:textColor="@color/black" />
 
                 <TextView

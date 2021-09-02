@@ -37,7 +37,7 @@ public class DetailPrescriptionAdapter extends
     public class ViewHolder extends RecyclerView.ViewHolder {
         // Your holder should contain a member variable
         // for any view that will be set as you render a row
-        private TextView tvPrescriptionNumber,tvDrugNumber,tvQuantity,tvPrice,tvInstruction;
+        private TextView tvPrescriptionNumber,tvDrugName,tvQuantity,tvPrice,tvInstruction;
         public CardView prescriptionContainer;
         private ItemClick mItemClick;
 
@@ -49,7 +49,7 @@ public class DetailPrescriptionAdapter extends
             super(itemView);
             mItemClick = itemClick;
             tvPrescriptionNumber =itemView.findViewById(R.id.prescription_number);
-            tvDrugNumber =itemView.findViewById(R.id.drug_number);
+            tvDrugName =itemView.findViewById(R.id.drug_number);
             tvQuantity =itemView.findViewById(R.id.quantity);
             tvPrice =itemView.findViewById(R.id.price);
             tvInstruction =itemView.findViewById(R.id.instruction);
@@ -58,7 +58,7 @@ public class DetailPrescriptionAdapter extends
 
         public void bind(DetailPrescription detailPrescription) {
             tvPrescriptionNumber.setText(detailPrescription.getPrescriptionNumber());
-            tvDrugNumber.setText(detailPrescription.getMedicineNumber());
+            tvDrugName.setText(detailPrescription.getMedicine().getMedicineName());
             tvQuantity.setText(String.valueOf(detailPrescription.getQuantity()));
             tvPrice.setText(String.valueOf(detailPrescription.getPrice()));
             tvInstruction.setText(detailPrescription.getInstructionUse());

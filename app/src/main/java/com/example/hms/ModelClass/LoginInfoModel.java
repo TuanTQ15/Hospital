@@ -22,15 +22,6 @@ public class LoginInfoModel implements Serializable {
     private String username;
     @ColumnInfo(name = "fullname")
     private String fullname;
-
-    public String getImage_url() {
-        return image_url;
-    }
-
-    public void setImage_url(String image_url) {
-        this.image_url = image_url;
-    }
-
     @ColumnInfo(name = "email")
     private String email;
     @ColumnInfo(name = "image_url")
@@ -46,6 +37,13 @@ public class LoginInfoModel implements Serializable {
         this.image_url = image_url;
     }
 
+    public String getImage_url() {
+        return image_url;
+    }
+
+    public void setImage_url(String image_url) {
+        this.image_url = image_url;
+    }
     public String getAccess_token() {
         return access_token;
     }

@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.hms.ModelClass.LoginInfoModel;
@@ -33,16 +34,17 @@ public class LoginActivity extends AppCompatActivity {
     private ProgressBar loadingProgressBar;
     private AppDatabase db= MyApplication.getDb();
     private userLoginDAO userDao;
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
         loadingProgressBar = findViewById(R.id.loading);
-        username = findViewById(R.id.username);
-        password = findViewById(R.id.password);
-        username.setText("241718854");
-        password.setText("123456");
+        username =  findViewById(R.id.user_name);
+        password = findViewById(R.id.pass);
+        username.setText("241718850");
+        password.setText("123456quoctuan");
         mLogin = findViewById(R.id.button_login);
         userDao= db.userDao();
         mLogin.setOnClickListener(new View.OnClickListener() {

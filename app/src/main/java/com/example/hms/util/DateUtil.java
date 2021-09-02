@@ -1,18 +1,28 @@
 package com.example.hms.util;
 
+import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
-public class DateUtil {
-    public static long stringDateToLong(String value){
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-        simpleDateFormat.setTimeZone(TimeZone.getDefault());
+public  class DateUtil {
+
+    public static String convertTime(long time,String PATTERN_DATE){
+        Date date = new Date(time);
+        Format format = new SimpleDateFormat(PATTERN_DATE);
+        return format.format(date);
+    }
+    public static long convertTimeToLong(String date){
+        long milliseconds=0;
+        SimpleDateFormat f = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         try {
-            return  simpleDateFormat.parse(value).getTime();
+            Date d = f.parse(date);
+            milliseconds = d.getTime();
         } catch (ParseException e) {
-            return  0;
+            e.printStackTrace();
         }
+        return milliseconds;
     }
 }
