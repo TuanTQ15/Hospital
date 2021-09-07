@@ -18,6 +18,7 @@ import io.reactivex.rxjava3.subjects.PublishSubject;
 import com.example.hms.R;
 import com.example.hms.ui.patient.dashboard.medicalhistory.MedicalHistoryActivity;
 import com.example.hms.ui.patient.dashboard.medicalrecord.MedicalRecordActivity;
+import com.example.hms.ui.patient.dashboard.password.ChangePasswordActivity;
 import com.example.hms.ui.patient.dashboard.payment.PaymentActivity;
 
 public class DashboardFragment extends Fragment {
@@ -48,6 +49,10 @@ public class DashboardFragment extends Fragment {
         });
         binding.payment.setOnClickListener(v -> {
             Intent intent = new Intent(getContext(), PaymentActivity.class);
+            startActivity(intent);
+        });
+        binding.changePassword.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), ChangePasswordActivity.class);
             startActivity(intent);
         });
     }

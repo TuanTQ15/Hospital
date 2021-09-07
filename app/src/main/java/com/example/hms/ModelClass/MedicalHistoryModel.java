@@ -98,7 +98,11 @@ public class MedicalHistoryModel implements Serializable {
     }
 
     public PrescriptionModel getPrescription() {
-        return prescription;
+        if (prescription!=null){
+            return prescription;
+        }else {
+            return null;
+        }
     }
 
     public void setPrescription(PrescriptionModel prescription) {

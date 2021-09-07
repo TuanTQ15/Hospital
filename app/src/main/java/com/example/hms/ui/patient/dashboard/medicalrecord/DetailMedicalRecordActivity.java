@@ -3,7 +3,6 @@ package com.example.hms.ui.patient.dashboard.medicalrecord;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -12,8 +11,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.example.hms.ModelClass.DetailPrescription;
 import com.example.hms.ModelClass.EmployeeModel;
 import com.example.hms.ModelClass.MedicalRecordModel;
 import com.example.hms.ModelClass.PatientModel;
@@ -22,8 +19,8 @@ import com.example.hms.dao.AppDatabase;
 import com.example.hms.dao.userLoginDAO;
 import com.example.hms.service.API;
 import com.example.hms.service.MyApplication;
-import com.example.hms.ui.patient.dashboard.medicalhistory.MedicalHistoryActivity;
 import com.example.hms.ui.patient.dashboard.medicalhistory.MedicalHistoryAdapter;
+import com.example.hms.ui.patient.prescription.DetailPrescriptionActivity;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -41,8 +38,6 @@ public class DetailMedicalRecordActivity extends AppCompatActivity {
     private userLoginDAO userDao;
     private TextView tvFullName,tvAddress,tvPhoneNumber,tvBHYT,tvCMND,
             tvGender, tvBirthday,tvWeight,tvHeight ,tvPastMedicalRecord,tvHistoryRecordNumber;
-    public ImageView imagePatient;
-    private PatientModel patient;
     private MedicalRecordModel medicalRecord;
     private MedicalHistoryAdapter medicalHistoryAdapter;
     @Override
@@ -81,7 +76,6 @@ public class DetailMedicalRecordActivity extends AppCompatActivity {
             tvFullName.setText(patient.getHOTEN());
             tvAddress.setText(patient.getDIACHI());
             tvPhoneNumber.setText(patient.getSODIENTHOAI());
-            tvBHYT.setText(patient.getBHYT());
             tvCMND.setText(patient.getCMND());
             tvGender.setText(patient.getGIOITINH());
             tvBirthday.setText(patient.getNGAYSINH());
@@ -115,7 +109,7 @@ public class DetailMedicalRecordActivity extends AppCompatActivity {
     }
 
     private void createApdater(){
-        Intent intent = new Intent(this, MedicalHistoryActivity.class);
+        Intent intent = new Intent(this, DetailPrescriptionActivity.class);
         medicalHistoryAdapter = new MedicalHistoryAdapter(medicalHistory -> {
             intent.putExtra("medicalHistory", medicalHistory);
             startActivity(intent);

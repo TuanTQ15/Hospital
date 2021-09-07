@@ -19,6 +19,7 @@
         <activity android:name=".ui.patient.dashboard.medicalhistory.MedicalHistoryActivity"/>
         <activity android:name=".ui.patient.dashboard.medicalrecord.MedicalRecordActivity"/>
         <activity android:name=".ui.patient.dashboard.medicalrecord.DetailMedicalRecordActivity"/>
+        <activity android:name=".ui.patient.dashboard.password.ChangePasswordActivity"/>
         <activity android:name=".ui.patient.dashboard.payment.PaymentActivity"/>
         <activity android:name=".ui.patient.dashboard.payment.SuccessActivity"/>
         <activity

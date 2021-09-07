@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hms.ModelClass.Medicine;
 import com.example.hms.ModelClass.PaymentModel;
+import com.example.hms.ModelClass.ReceiptModel;
 import com.example.hms.ModelClass.Room;
 import com.example.hms.ModelClass.Services;
 import com.example.hms.R;
@@ -67,63 +69,59 @@ public class PaymentActivity extends AppCompatActivity {
     PaymentButton payPalButton;
     private AppDatabase db= MyApplication.getDb();
     private userLoginDAO userDao;
-    private TextView tvFullName,tvTotalFee,tvAdvances,tvCheckin,tvCheckOut,tvRate,tvNumberDay,tvRoomFee,tvServiceFee,tvMedicineFee,tvStatus;
+    private TextView tvFullName,tvTotalFee,tvAdvances,tvTotal_P,tvRoomFee,tvServiceFee,tvMedicineFee,tvStatus;
     private ServiceAdapter serviceAdapter;
     private MedicineAdapter medicineAdapter;
-    private RecyclerView serviceRecycle,medicineRecycle;
-    private long roomFee=0,serviceFee=0,medicineFree=0,total=0;
+    private RoomAdapter roomAdapter;
+    private RecyclerView serviceRecycle,medicineRecycle,roomRecycle;
+    private long roomFee=0,serviceFee=0,medicineFree=0,total=0,total_p=0;
     private DecimalFormat df = new DecimalFormat("###,### VNĐ");
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getHospitalFee();
+        userDao=db.userDao();
+        getHospitalFee(userDao.getLogin().getUsername());
     }
 
-    private void setEvent(PaymentModel payment)  {
-
-        roomFee=getRoomFee(payment.getRooms());
-
-        tvTotalFee.setText( df.format(total));
+    private void setEvent(PaymentModel payment) {
+        if(total<0){
+            total=-1*total;
+        }
+        tvTotalFee.setText(df.format(total));
+        tvTotal_P.setText(df.format(total_p));
         tvAdvances.setText(df.format(payment.getAdvances()));
-        tvCheckOut.setText(payment.getRooms().getDateCheckout());
-        tvCheckin.setText(payment.getRooms().getDateCheckin());
-        tvNumberDay.setText(String.valueOf(payment.getRooms().getTotalDay()));
-        tvRate.setText(df.format(payment.getRooms().getPrice()));
         tvServiceFee.setText(df.format(serviceFee));
         tvRoomFee.setText(df.format(roomFee));
         tvMedicineFee.setText(df.format(medicineFree));
         serviceAdapter.setServices(payment.getServices());
         medicineAdapter.setMedicines(payment.getMedicines());
+        roomAdapter.setRooms(payment.getRooms());
         payPalButton = findViewById(R.id.payPalButton);
-        setButtonPaypal(payment,total);
-    }
-
-    private double setLiveExchangeRateCurrency(long total) throws IOException, JSONException {
-        URL url = new URL("http://data.fixer.io/api/latest?access_key=ae010c2c74656567192c286e1686c680&format=1");
-        HttpURLConnection con = (HttpURLConnection) url.openConnection();
-        con.connect();
-
-        JsonParser jp = new JsonParser(); //from gson
-        JsonElement root = jp.parse(new InputStreamReader((InputStream) con.getContent())); //Convert the input stream to a json element
-        JsonObject rootobj = root.getAsJsonObject();
-        JsonObject oj = rootobj.getAsJsonObject("rates");
-        double rate= oj.getAsDouble();
-        return total/rate;
-    }
-
-    private long getRoomFee(Room room){
-        return room.getPrice()*room.getTotalDay();
+        if(payment.getStatus()==0){
+            tvTotalFee.setText(df.format(total));
+            tvStatus.setText("Còn nợ");
+        }else if(payment.getStatus()==1){
+            tvStatus.setText("Đã hoàn trả");
+            tvTotalFee.setText(df.format(total));
+            payPalButton.setVisibility(View.GONE);
+        }
+        setButtonPaypal(payment, total);
     }
     private long getToTal(PaymentModel payment){
         List<Services> services=payment.getServices();
         List<Medicine> medicines =payment.getMedicines();
+        List<Room> rooms=payment.getRooms();
         for (Medicine medicine:medicines) {
             medicineFree+=(medicine.getPrice()*medicine.getQuantity());
         }
         for (Services service:services) {
             serviceFee+=(service.getPrice()*service.getQuantity());
         }
-        return payment.getAdvances()-(medicineFree+serviceFee+roomFee);
+        for(Room room : rooms){
+            roomFee+=(room.getPrice()*room.getTotalDay());
+        }
+        total_p=medicineFree+serviceFee+roomFee;
+        return payment.getAdvances()-total_p;
     }
     private void setButtonPaypal(PaymentModel payment,long total) {
         DecimalFormat df = new DecimalFormat("###.##");
@@ -158,6 +156,7 @@ public class PaymentActivity extends AppCompatActivity {
                         approval.getOrderActions().capture(new OnCaptureComplete() {
                             @Override
                             public void onCaptureComplete(@NotNull CaptureOrderResult result) {
+                                createReceiptment(payment);
                                 lauchComplete(payment);
                             }
                         });
@@ -172,12 +171,28 @@ public class PaymentActivity extends AppCompatActivity {
                 new OnError() {
                     @Override
                     public void onError(@NotNull ErrorInfo errorInfo) {
-                        Log.d("OnError", String.format("Error: %s", errorInfo));
+                        showNotify("Payment failed, please try again");
                     }
                 }
         );
     }
+    private void createReceiptment(PaymentModel payment){
+        userDao=db.userDao();
+        ReceiptModel receiptModel = new ReceiptModel(total_p,"",medicineFree,payment.getMedicalRecord(),roomFee,payment.getAdvances(),serviceFee,total_p);
+        API.apiService.createReceiptment(receiptModel).enqueue(new Callback<ReceiptModel>() {
+            @Override
+            public void onResponse(Call<ReceiptModel> call, Response<ReceiptModel> response) {
+                if(response.code()==200){
 
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ReceiptModel> call, Throwable t) {
+                System.out.println("loi");
+            }
+        });
+    }
     private void lauchComplete(PaymentModel payment) {
         Intent intent = new Intent(this, SuccessActivity.class);
         intent.putExtra("payment", payment);
@@ -195,6 +210,13 @@ public class PaymentActivity extends AppCompatActivity {
         serviceRecycle.setLayoutManager(llm);
         serviceRecycle.setAdapter(serviceAdapter);
     }
+    private void createRoomApdater(){
+        roomAdapter =new RoomAdapter();
+        LinearLayoutManager llm = new LinearLayoutManager(this);
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        roomRecycle.setLayoutManager(llm);
+        roomRecycle.setAdapter(roomAdapter);
+    }
     private void createMedicineApdater(){
         Intent intent = new Intent(this, MedicineActivity.class);
         medicineAdapter = new MedicineAdapter(medicine -> {
@@ -208,7 +230,7 @@ public class PaymentActivity extends AppCompatActivity {
     }
     private void setControl(PaymentModel payment) {
         total=getToTal(payment);
-        if(total < 0){
+        if(total > 0&&payment.getStatus()==0){
             setContentView(R.layout.activity_payback);
             TextView tvTotalPayback =findViewById(R.id.total_payback);
             tvTotalPayback.setText(df.format(total));
@@ -217,25 +239,25 @@ public class PaymentActivity extends AppCompatActivity {
             userDao=db.userDao();
             tvFullName = findViewById(R.id.full_name);
             tvAdvances = findViewById(R.id.advances);
-            tvTotalFee = findViewById(R.id.total_fee);
-            tvCheckin = findViewById(R.id.checkin);
-            tvCheckOut = findViewById(R.id.checkout);
-            tvNumberDay = findViewById(R.id.number_day);
-            tvRate = findViewById(R.id.rate);
+            tvTotalFee = findViewById(R.id.total_pay);
+            tvStatus =findViewById(R.id.status);
             serviceRecycle =findViewById(R.id.service_recycle);
             medicineRecycle =findViewById(R.id.medicine_recycle);
+            roomRecycle =findViewById(R.id.room_recycle);
             tvMedicineFee =findViewById(R.id.p_medicine);
             tvRoomFee =findViewById(R.id.p_room);
             tvServiceFee =findViewById(R.id.p_service);
+            tvTotal_P =findViewById(R.id.total_fee);
             tvFullName.setText(userDao.getLogin().getFullname());
             createServiceApdater();
             createMedicineApdater();
+            createRoomApdater();
             setEvent(payment);
         }
     }
 
-    private void getHospitalFee() {
-        API.apiService.getHospitalFee("241718850").enqueue(new Callback<PaymentModel>() {
+    private void getHospitalFee(String CMND) {
+        API.apiService.getHospitalFee(CMND).enqueue(new Callback<PaymentModel>() {
             @Override
             public void onResponse(Call<PaymentModel> call, Response<PaymentModel> response) {
                 if(response.code()==200 && response.body()!=null){
@@ -248,5 +270,14 @@ public class PaymentActivity extends AppCompatActivity {
                 System.out.println("loi");
             }
         });
+    }
+    private void showNotify(String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlertDialogCustom);
+        builder.setMessage(message);
+        builder.setPositiveButton("OK",(dialogInterface,i)->{
+           dialogInterface.dismiss();
+        });
+        AlertDialog alertDialog = builder.create(); //create
+        alertDialog.show(); //Show it.
     }
 }

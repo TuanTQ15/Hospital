@@ -14,16 +14,12 @@ public class EmployeeModel implements Serializable {
     @NotNull
     @SerializedName("MANV")
     private String employeeNumber;
-    @SerializedName("MAKHOA")
-    private String departmentNumber;
     @SerializedName("HOTEN")
     private String fullName;
     @SerializedName("GIOITINH")
     private String gender;
     @SerializedName("DIACHI")
     private String address;
-    @SerializedName("CMND")
-    private String CMND;
     @SerializedName("NGAYSINH")
     private long birthday;
     @SerializedName("HINHANH")
@@ -34,25 +30,22 @@ public class EmployeeModel implements Serializable {
     private String phoneNumber;
     @SerializedName("EMAIL")
     private String email;
-    @SerializedName("MALOAINV")
-    private String typeEmployeeNumber;
 
-    public EmployeeModel(@NotNull String employeeNumber, String departmentNumber, String fullName,
-                         String gender, String address, String CMND, long birthday,
+
+    public EmployeeModel(@NotNull String employeeNumber,  String fullName,
+                         String gender, String address, long birthday,
                          String imageUrl, String position, String phoneNumber,
-                         String email, String typeEmployeeNumber) {
+                         String email) {
         this.employeeNumber = employeeNumber;
-        this.departmentNumber = departmentNumber;
         this.fullName = fullName;
         this.gender = gender;
         this.address = address;
-        this.CMND = CMND;
         this.birthday = birthday;
         this.imageUrl = imageUrl;
         this.position = position;
         this.phoneNumber = phoneNumber;
         this.email = email;
-        this.typeEmployeeNumber = typeEmployeeNumber;
+
     }
 
     public String getEmployeeNumber() {
@@ -63,13 +56,7 @@ public class EmployeeModel implements Serializable {
         this.employeeNumber = employeeNumber;
     }
 
-    public String getDepartmentNumber() {
-        return departmentNumber;
-    }
 
-    public void setDepartmentNumber(String departmentNumber) {
-        this.departmentNumber = departmentNumber;
-    }
 
     public String getFullName() {
         return fullName;
@@ -95,13 +82,6 @@ public class EmployeeModel implements Serializable {
         this.address = address;
     }
 
-    public String getCMND() {
-        return CMND;
-    }
-
-    public void setCMND(String CMND) {
-        this.CMND = CMND;
-    }
 
     public String getBirthday() {
         return DateUtil.convertTime(this.birthday,"dd/MM/yyyy");
@@ -143,11 +123,4 @@ public class EmployeeModel implements Serializable {
         this.email = email;
     }
 
-    public String getTypeEmployeeNumber() {
-        return typeEmployeeNumber;
-    }
-
-    public void setTypeEmployeeNumber(String typeEmployeeNumber) {
-        this.typeEmployeeNumber = typeEmployeeNumber;
-    }
 }

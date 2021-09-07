@@ -2,24 +2,46 @@ package com.example.hms.ui.doctor;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
+import com.example.hms.ModelClass.LoginInfoModel;
 import com.example.hms.R;
+import com.example.hms.dao.AppDatabase;
+import com.example.hms.dao.userLoginDAO;
 import com.example.hms.databinding.ActivityDoctorBinding;
 import com.example.hms.databinding.LayoutHeaderDrawerBinding;
+import com.example.hms.service.MyApplication;
 import com.example.hms.ui.base.BaseActivity;
+import com.example.hms.ui.doctor.password.ChangePasswordFragment;
 import com.example.hms.ui.doctor.profile.ProfileFragment;
 import com.example.hms.ui.doctor.report.ReportFragment;
 import com.example.hms.ui.login.LoginActivity;
+import com.google.android.material.navigation.NavigationView;
+
+import java.io.IOException;
+import java.util.Objects;
 
 import dagger.hilt.android.AndroidEntryPoint;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
@@ -30,7 +52,8 @@ public class DoctorActivity extends BaseActivity<ActivityDoctorBinding, DoctorVi
 
     private ActionBar actionBar;
     private ActionBarDrawerToggle drawerToggle;
-
+    private AppDatabase db= MyApplication.getDb();
+    private userLoginDAO userDao;
     public DoctorActivity() {
         super(R.layout.activity_doctor);
     }
@@ -39,17 +62,7 @@ public class DoctorActivity extends BaseActivity<ActivityDoctorBinding, DoctorVi
     public DoctorViewModel setUpViewModel() {
         return new ViewModelProvider(this).get(DoctorViewModel.class);
     }
-
     private LayoutHeaderDrawerBinding headerDrawerBinding;
-
-    private void backButton() {
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeButtonEnabled(true);
-        Drawable drawable = getResources().getDrawable(R.drawable.ic_menu);
-//        drawable.setColorFilter(getResources().getColor(R.color.white) , PorterDuff.Mode.SRC_ATOP);
-        actionBar.setHomeAsUpIndicator(drawable);
-        headerDrawerBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.layout_header_drawer, binding.navView, false);
-    }
 
     @Override
     public void createView() {
@@ -70,6 +83,9 @@ public class DoctorActivity extends BaseActivity<ActivityDoctorBinding, DoctorVi
                     break;
                 case R.id.doctor_nav_edit_profile:
                     openFragment(getProfileFragment(), getString(R.string.edit_profile_doctor));
+                    break;
+                case R.id.doctor_nav_changepass:
+                    openFragment(getChangePasswordFragment(), getString(R.string.doctor_change_pass));
                     break;
             }
             binding.activityMainDrawer.closeDrawer(binding.navView);
@@ -139,11 +155,12 @@ public class DoctorActivity extends BaseActivity<ActivityDoctorBinding, DoctorVi
 
     private ReportFragment reportFragment = null;
     private ProfileFragment profileFragment = null;
-
+    private ChangePasswordFragment changePasswordFragment=null;
     private final CompositeDisposable composite = new CompositeDisposable();
     private void setSelectedMenu(int index) {
         binding.navView.getMenu().getItem(0).setChecked(index == 0);
         binding.navView.getMenu().getItem(1).setChecked(index == 1);
+        binding.navView.getMenu().getItem(2).setChecked(index == 2);
     }
     public ProfileFragment getProfileFragment() {
         if(profileFragment == null){
@@ -156,6 +173,7 @@ public class DoctorActivity extends BaseActivity<ActivityDoctorBinding, DoctorVi
         }
         return profileFragment;
     }
+
     public ReportFragment getReportFragment() {
         if(reportFragment == null){
             reportFragment = new ReportFragment();
@@ -166,5 +184,77 @@ public class DoctorActivity extends BaseActivity<ActivityDoctorBinding, DoctorVi
             composite.add(subscribe);
         }
         return reportFragment;
+    }
+
+    public ChangePasswordFragment getChangePasswordFragment() {
+        if(changePasswordFragment == null){
+            changePasswordFragment = new ChangePasswordFragment();
+
+            Disposable subscribe = changePasswordFragment.getSelectPublisher().subscribe(integer -> {
+                setSelectedMenu(2);
+            });
+            composite.add(subscribe);
+        }
+        return changePasswordFragment;
+    }
+    private void backButton() {
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeButtonEnabled(true);
+        Drawable drawable = getResources().getDrawable(R.drawable.ic_menu);
+//        drawable.setColorFilter(getResources().getColor(R.color.white) , PorterDuff.Mode.SRC_ATOP);
+        actionBar.setHomeAsUpIndicator(drawable);
+        headerDrawerBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.layout_header_drawer, binding.navView, false);
+        setUpNavHeader();
+    }
+    private void setUpNavHeader() {
+        userDao= db.userDao();
+        LoginInfoModel loginInfoModel =userDao.getLogin();
+        View header = binding.navView.getHeaderView(0);
+        TextView tvName =header.findViewById(R.id.user_name);
+        TextView email = header.findViewById(R.id.email_user);
+        ImageView imageView = header.findViewById(R.id.imageView);
+        tvName.setText(loginInfoModel.getFullname());
+        email.setText(loginInfoModel.getEmail());
+        setImage(imageView, loginInfoModel.getImage_url());
+    }
+    private void setImage(ImageView  imageView,String uri) {
+        Glide.with(this).load(uri)
+                .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
+                .error(R.drawable.default_user)
+                .listener(new RequestListener<Drawable>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                        return false;
+                    }
+                }).into(imageView);
+    }
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            Uri imageUri = Objects.requireNonNull(data).getData();
+            Bitmap bitmap = null;
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            if (bitmap != null) {
+                NavigationView navigationView= findViewById(R.id.nav_view);
+                View header = navigationView.getHeaderView(0);
+                ImageView imageViewNav = header.findViewById(R.id.imageView);
+                ImageView imageView= findViewById(R.id.doctor_image);
+                imageView.setImageBitmap(bitmap);
+                imageViewNav.setImageBitmap(bitmap);
+            }
+
+        } else {
+            Toast.makeText(this, "Bạn chưa chọn ảnh", Toast.LENGTH_LONG).show();
+        }
     }
 }

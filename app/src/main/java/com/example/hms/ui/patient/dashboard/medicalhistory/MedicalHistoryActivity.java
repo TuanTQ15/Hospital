@@ -18,6 +18,7 @@ import com.example.hms.dao.AppDatabase;
 import com.example.hms.dao.userLoginDAO;
 import com.example.hms.service.API;
 import com.example.hms.service.MyApplication;
+import com.example.hms.ui.patient.prescription.DetailPrescriptionActivity;
 import com.example.hms.ui.patient.prescription.MedicineActivity;
 
 import java.util.Collections;
@@ -44,7 +45,7 @@ public class MedicalHistoryActivity extends AppCompatActivity {
     }
 
     private void createApdater(){
-        Intent intent = new Intent(this, MedicineActivity.class);
+        Intent intent = new Intent(this, DetailPrescriptionActivity.class);
         medicalHistoryAdapter = new MedicalHistoryAdapter(medicalHistory -> {
             intent.putExtra("medicalHistory", medicalHistory);
             startActivity(intent);

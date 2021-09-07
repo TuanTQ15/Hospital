@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -38,9 +39,8 @@ public class DetailPrescriptionAdapter extends
         // Your holder should contain a member variable
         // for any view that will be set as you render a row
         private TextView tvPrescriptionNumber,tvDrugName,tvQuantity,tvPrice,tvInstruction;
-        public CardView prescriptionContainer;
         private ItemClick mItemClick;
-
+        private Button btnDetail;
         // We also create a constructor that accepts the entire item row
         // and does the view lookups to find each subview
         public ViewHolder(View itemView, ItemClick itemClick) {
@@ -53,7 +53,7 @@ public class DetailPrescriptionAdapter extends
             tvQuantity =itemView.findViewById(R.id.quantity);
             tvPrice =itemView.findViewById(R.id.price);
             tvInstruction =itemView.findViewById(R.id.instruction);
-            prescriptionContainer=itemView.findViewById(R.id.container);
+            btnDetail =itemView.findViewById(R.id.btn_detail);
         }
 
         public void bind(DetailPrescription detailPrescription) {
@@ -62,7 +62,7 @@ public class DetailPrescriptionAdapter extends
             tvQuantity.setText(String.valueOf(detailPrescription.getQuantity()));
             tvPrice.setText(String.valueOf(detailPrescription.getPrice()));
             tvInstruction.setText(detailPrescription.getInstructionUse());
-            prescriptionContainer.setOnClickListener((v) -> {
+            btnDetail.setOnClickListener((v) -> {
                 mItemClick.click(detailPrescription);
             });
         }

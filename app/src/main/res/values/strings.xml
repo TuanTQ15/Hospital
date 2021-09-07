@@ -10,7 +10,7 @@
     <string name="doctor_edit_profile">Edit Profile</string>
     <string name="doctor_report">Report</string>
 
-
+    <string name="doctor_change_pass">Change Password</string>
     <!-- Doctor-->
     <string name="patient_edit_profile">Edit Profile</string>
     <string name="patient_dashboard">Dashboard</string>
@@ -120,7 +120,7 @@
     <string name="enter_your_email">Enter Your Email</string>
     <string name="enter_your_email_address">Enter Your Email Address</string>
     <string name="enter_your_name">Enter Your Name</string>
-    <string name="enter_your_identity_card">Enter Your Identity Card</string>
+    <string name="enter_your_employee_number">Enter Your Employee Number</string>
     <string name="enter_your_mobile_number">Enter Your Mobile Number</string>
     <string name="enter_your_password_address">Enter Your Password</string>
     <string name="enter_health_insurance_code">Enter Your Code</string>

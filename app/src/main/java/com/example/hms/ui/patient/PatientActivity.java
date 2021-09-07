@@ -1,7 +1,5 @@
 package com.example.hms.ui.patient;
 
-import android.app.SearchManager;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
@@ -9,7 +7,6 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -20,7 +17,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.widget.SearchView;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -31,31 +27,24 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.example.hms.ModelClass.LoginInfoModel;
-import com.example.hms.ModelClass.PrescriptionModel;
 import com.example.hms.R;
 import com.example.hms.dao.AppDatabase;
 import com.example.hms.dao.userLoginDAO;
 import com.example.hms.databinding.ActivityPatientBinding;
 import com.example.hms.databinding.LayoutHeaderDrawerBinding;
-import com.example.hms.service.API;
 import com.example.hms.service.MyApplication;
 import com.example.hms.ui.base.BaseActivity;
 import com.example.hms.ui.login.LoginActivity;
 import com.example.hms.ui.patient.dashboard.DashboardFragment;
-import com.example.hms.ui.patient.prescription.PrescriptionFragment;
 import com.example.hms.ui.patient.profile.ProfileFragment;
+import com.google.android.material.navigation.NavigationView;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 import dagger.hilt.android.AndroidEntryPoint;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 @AndroidEntryPoint
 public class PatientActivity extends BaseActivity<ActivityPatientBinding, PatientViewModel> {
@@ -105,9 +94,7 @@ public class PatientActivity extends BaseActivity<ActivityPatientBinding, Patien
                 case R.id.patient_nav_edit_profile:
                     openFragment(getProfileFragment(), getString(R.string.edit_profile));
                     break;
-                case R.id.patient_nav_prescription:
-                    openFragment(getPrescriptionFragment(), getString(R.string.prescription));
-                    break;
+
             }
             binding.activityMainDrawer.closeDrawer(binding.navView);
             return drawerToggle.onOptionsItemSelected(item);
@@ -212,8 +199,6 @@ public class PatientActivity extends BaseActivity<ActivityPatientBinding, Patien
         composite.dispose();
     }
 
-
-    private PrescriptionFragment prescriptionFragment = null;
     private DashboardFragment dashboardFragment = null;
     private ProfileFragment profileFragment = null;
     private final CompositeDisposable composite = new CompositeDisposable();
@@ -244,17 +229,7 @@ public class PatientActivity extends BaseActivity<ActivityPatientBinding, Patien
         }
         return profileFragment;
     }
-    public PrescriptionFragment getPrescriptionFragment() {
-        if(prescriptionFragment == null){
-            prescriptionFragment = new PrescriptionFragment();
 
-            Disposable subscribe = prescriptionFragment.getSelectPublisher().subscribe(integer -> {
-                setSelectedMenu(2);
-            });
-            composite.add(subscribe);
-        }
-        return prescriptionFragment;
-    }
 
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -268,8 +243,12 @@ public class PatientActivity extends BaseActivity<ActivityPatientBinding, Patien
             }
 
             if (bitmap != null) {
+                NavigationView navigationView= findViewById(R.id.nav_view);
+                View header = navigationView.getHeaderView(0);
+                ImageView imageViewNav = header.findViewById(R.id.imageView);
                 ImageView imageView= findViewById(R.id.patientImage);
                 imageView.setImageBitmap(bitmap);
+                imageViewNav.setImageBitmap(bitmap);
             }
 
         } else {

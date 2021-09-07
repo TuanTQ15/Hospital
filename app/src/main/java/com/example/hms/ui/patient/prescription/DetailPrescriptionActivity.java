@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -15,16 +16,24 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hms.ModelClass.DetailPrescription;
+import com.example.hms.ModelClass.EmployeeModel;
+import com.example.hms.ModelClass.MedicalHistoryModel;
+import com.example.hms.ModelClass.MedicalRecordModel;
 import com.example.hms.ModelClass.PrescriptionModel;
 import com.example.hms.R;
+import com.example.hms.service.API;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class DetailPrescriptionActivity  extends AppCompatActivity {
-    private TextView backId;
-    private PrescriptionModel prescription=null;
+    private MedicalHistoryModel medicalHistoryModel=null;
     private DetailPrescriptionAdapter detailPrescriptionAdapter;
+    private TextView backId,tvDoctorName,tvDate,tvMedicalInstruction,tvTotal;
     private RecyclerView recyclerView;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -34,14 +43,41 @@ public class DetailPrescriptionActivity  extends AppCompatActivity {
         createApdater();
         setEvent();
     }
-
+    private void setControl() {
+        recyclerView=findViewById(R.id.detail_prescription_recycle_view);
+        tvDoctorName= findViewById(R.id.doctor_name);
+        tvDate= findViewById(R.id.date_exam);
+        tvMedicalInstruction= findViewById(R.id.instruction);
+        tvTotal= findViewById(R.id.total_prescription);
+        backId=findViewById(R.id.backId);
+        backId.setOnClickListener(v -> onBackPressed());
+    }
     private void setEvent() {
         if (getIntent().getExtras() != null) {
-            prescription = (PrescriptionModel) getIntent().getSerializableExtra("prescription");
+            medicalHistoryModel = (MedicalHistoryModel) getIntent().getSerializableExtra("medicalHistory");
         }
-        if(prescription!=null){
-            setDetailPrescriptionAdapter(prescription.getDetailPrescriptionList());
+        if(medicalHistoryModel!=null){
+
+            getEmployee(medicalHistoryModel);
         }
+
+    }
+    private void getEmployee(MedicalHistoryModel medicalHistoryModel){
+        API.apiService.getAllEmployees().enqueue(new Callback<List<EmployeeModel>>() {
+            @Override
+            public void onResponse(Call<List<EmployeeModel>> call, Response<List<EmployeeModel>> response) {
+                if(response.body()!=null&&response.code()==200){
+                    List<EmployeeModel> employeeModels =response.body();
+                    setDetailPrescriptionAdapter(medicalHistoryModel,employeeModels);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<EmployeeModel>> call, Throwable t) {
+                System.out.println("loi");
+                //loadingProgressBar.setVisibility(View.VISIBLE);
+            }
+        });
     }
     private void createApdater(){
         Intent intent = new Intent(this, MedicineActivity.class);
@@ -54,70 +90,31 @@ public class DetailPrescriptionActivity  extends AppCompatActivity {
         recyclerView.setLayoutManager(llm);
         recyclerView.setAdapter(detailPrescriptionAdapter);
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        menu.clear();
-        getMenuInflater().inflate(R.menu.main, menu);
-        setupSearch(menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    SearchView searchView = null;
-    private MenuItem searchMenuItem;
-    private void setupSearch(Menu menu) {
-        SearchManager searchManager = (SearchManager) DetailPrescriptionActivity.this.getSystemService(Context.SEARCH_SERVICE);
-        searchMenuItem = menu.findItem(R.id.action_search);
-
-        if (searchMenuItem != null) {
-            searchView = (SearchView) searchMenuItem.getActionView();
-        }
-        if (searchView != null) {
-            searchView.setSearchableInfo(searchManager.getSearchableInfo(DetailPrescriptionActivity.this.getComponentName()));
-            searchView.setQueryHint("Type here to search");
-        }
-
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                //result khen click search btn
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                filterContact(newText);
-                return true;
-            }
-        });
-
-    }
-
-    private void filterContact(String strSearch){
-        List<DetailPrescription> filter = this.prescription.getDetailPrescriptionList();
-        filter.stream().filter(detailPrescription -> {
-            if(detailPrescription == null || detailPrescription.getPrescriptionNumber().isEmpty())
-            {return true;}else {
-
-                return (detailPrescription.getPrescriptionNumber().contains(strSearch));
-            }
-        }).collect(Collectors.toList());
-        setDetailPrescriptionAdapter(filter);
-    }
     @Override
     public void onBackPressed() {
         super.onBackPressed();
     }
 
-    private void setControl() {
-        recyclerView=findViewById(R.id.detail_prescription_recycle_view);
-        backId =findViewById(R.id.backId);
-        backId.setOnClickListener(v -> {
-            onBackPressed();
-        });
+    private String getDoctorName(List<EmployeeModel> employeeModel,String maBS){
+        for (EmployeeModel employee:employeeModel){
+            if (maBS.equals(employee.getEmployeeNumber())){
+                return employee.getFullName();
+            }
+        }
+        return "";
     }
-    private void setDetailPrescriptionAdapter(List<DetailPrescription> detailPrescriptionList){
-        detailPrescriptionAdapter.setPrescriptions(detailPrescriptionList);
+    private void setDetailPrescriptionAdapter(MedicalHistoryModel medicalHistoryModel,List<EmployeeModel> employeeModel){
+
+        String name=getDoctorName(employeeModel,medicalHistoryModel.getDoctorNumber());
+        tvDoctorName.setText(name);
+        tvDate.setText(medicalHistoryModel.getDateExam());
+        try{
+            tvTotal.setText(String.valueOf(medicalHistoryModel.getPrescription().getDetailPrescriptionList().size()));
+            tvMedicalInstruction.setText(medicalHistoryModel.getPrescription().getMedicalInstruction());
+            detailPrescriptionAdapter.setPrescriptions(medicalHistoryModel.getPrescription().getDetailPrescriptionList());
+        }catch (Exception e){
+            tvTotal.setText("0");
+        }
+
     }
 }

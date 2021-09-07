@@ -13,6 +13,10 @@
             android:icon="@drawable/ic_menu_gallery"
             android:title="@string/doctor_report" />
         <item
+            android:id="@+id/doctor_nav_changepass"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="@string/doctor_change_pass" />
+        <item
             android:id="@+id/doctor_nav_logout"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="@string/menu_logout" />

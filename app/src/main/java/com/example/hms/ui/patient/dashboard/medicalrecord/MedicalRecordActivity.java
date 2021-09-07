@@ -45,9 +45,8 @@ public class MedicalRecordActivity extends AppCompatActivity {
     private AppDatabase db= MyApplication.getDb();
     private userLoginDAO userDao;
     private TextView tvFullName,tvAddress,tvPhoneNumber,tvBHYT,tvCMND,
-            tvGender, tvBirthday,tvWeight,tvHeight ,tvPastMedicalRecord,tvHistoryRecordNumber;
+            tvGender, tvBirthday,tvTotal;
     public ImageView imagePatient;
-    private PatientModel patient;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,6 +82,7 @@ public class MedicalRecordActivity extends AppCompatActivity {
         tvCMND = findViewById(R.id.cmnd);
         tvGender = findViewById(R.id.gender);
         tvBirthday = findViewById(R.id.birthday);
+        tvTotal = findViewById(R.id.total_record);
         //tvPastMedicalRecord = findViewById(R.id.past_medical_record);
         imagePatient = findViewById(R.id.image_patient);
         loadingProgressBar.setVisibility(View.VISIBLE);
@@ -109,10 +109,10 @@ public class MedicalRecordActivity extends AppCompatActivity {
         tvFullName.setText(patient.getHOTEN());
         tvAddress.setText(patient.getDIACHI());
         tvPhoneNumber.setText(patient.getSODIENTHOAI());
-        tvBHYT.setText(patient.getBHYT());
         tvCMND.setText(patient.getCMND());
         tvGender.setText(patient.getGIOITINH());
         tvBirthday.setText(patient.getNGAYSINH());
+
         setImage(imagePatient,userDao.getLogin().getImage_url());
     }
     private void setImage(ImageView  imageView,String uri) {
@@ -155,6 +155,7 @@ public class MedicalRecordActivity extends AppCompatActivity {
             Collections.sort(medicalRecordModels, (o1, o2) -> o2.getDate().compareTo(o1.getDate()));
         }
         medicalHistoryAdapter.setMedicalRecordAdapter(medicalRecordModels);
+        tvTotal.setText(String.valueOf(medicalRecordModels.size()));
         loadingProgressBar.setVisibility(View.GONE);
     }
 }

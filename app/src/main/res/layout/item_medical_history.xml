@@ -15,139 +15,156 @@
             android:layout_height="match_parent">
 
             <LinearLayout
+                android:background="#82D3CB"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#82D3CB"
-                android:orientation="vertical">
-
+                android:orientation="horizontal">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="10dp">
+                    android:layout_weight="7"
+                    android:background="#82D3CB"
+                    android:orientation="vertical">
 
-                    <TextView
-                        android:layout_width="0dp"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="3.5"
+                            android:text="Medical Record: "
+                            android:textColor="@color/black" />
+
+                        <TextView
+                            android:id="@+id/medical_record_number"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="7"
+                            android:textColor="@color/black" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="3.5"
+                            android:text="Doctor Name:"
+                            android:textColor="@color/black" />
+
+                        <TextView
+                            android:id="@+id/doctor_name"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="7"
+                            android:textColor="@color/black" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:layout_weight="3.5"
-                        android:text="Medical Record: "
-                        android:textColor="@color/black" />
+                        android:orientation="horizontal"
+                        android:padding="10dp">
 
-                    <TextView
-                        android:id="@+id/medical_record_number"
-                        android:layout_width="0dp"
+                        <TextView
+                            android:id="@+id/patietn_name"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="3"
+                            android:text="Nurse Name:"
+                            android:textColor="@color/black" />
+
+                        <TextView
+                            android:id="@+id/nurse_name"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="7"
+                            android:textColor="@color/black" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="7"
-                        android:textColor="@color/black" />
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="3.5"
+                            android:text="Date: "
+                            android:textColor="@color/black" />
+
+                        <TextView
+                            android:id="@+id/date_exam"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="7"
+                            android:textColor="@color/black" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="3.5"
+                            android:text="Diagnose"
+                            android:textColor="@color/black" />
+
+                        <TextView
+                            android:id="@+id/diagnose"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="7"
+                            android:textColor="@color/black" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="3.5"
+                            android:text="Status: "
+                            android:textColor="@color/black" />
+
+                        <TextView
+                            android:id="@+id/status"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="7"
+                            android:textColor="@color/black" />
+                    </LinearLayout>
+
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <Button
+                    android:id="@+id/button"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="10dp">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="3.5"
-                        android:text="Doctor Name:"
-                        android:textColor="@color/black" />
-
-                    <TextView
-                        android:id="@+id/doctor_name"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="7"
-                        android:textColor="@color/black" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="3.5"
-                    android:orientation="horizontal"
-                    android:padding="10dp">
-
-                    <TextView
-                        android:id="@+id/patietn_name"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="3"
-                        android:text="Nurse Name:"
-                        android:textColor="@color/black" />
-
-                    <TextView
-                        android:id="@+id/nurse_name"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="7"
-                        android:textColor="@color/black" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="10dp">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="3.5"
-                        android:text="Date: "
-                        android:textColor="@color/black" />
-
-                    <TextView
-                        android:id="@+id/date_exam"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="7"
-                        android:textColor="@color/black" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="10dp">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="3.5"
-                        android:text="Diagnose"
-                        android:textColor="@color/black" />
-
-                    <TextView
-                        android:id="@+id/diagnose"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="7"
-                        android:textColor="@color/black" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:padding="10dp">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="3.5"
-                        android:text="Status: "
-                        android:textColor="@color/black" />
-
-                    <TextView
-                        android:id="@+id/status"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="7"
-                        android:textColor="@color/black" />
-                </LinearLayout>
+                    android:layout_gravity="center"
+                    android:layout_weight="2"
+                    android:text="Detail"
+                    android:textSize="12sp" />
 
             </LinearLayout>
         </ScrollView>

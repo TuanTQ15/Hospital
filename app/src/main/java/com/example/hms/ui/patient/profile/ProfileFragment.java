@@ -55,11 +55,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ProfileFragment extends Fragment {
     private static final String PATTERN_DATE="dd/MM/yyyy";
     private static int REQUEST_CODE = 1999;
+    private int time_7h=25200100;
     private ProgressBar loadingProgressBar;
     private AppDatabase db= MyApplication.getDb();
     private userLoginDAO userDao;
     private FragmentPatientEditProfileBinding binding;
-    boolean isFullName,isIdentityNumber,isEmail,isMobileNumber,isBirthDay,isAddress,isHealthInsuranceNumber,isGender;
+    boolean isFullName,isIdentityNumber,isEmail,isMobileNumber,isBirthDay,isAddress,isGender;
     private PatientModel patient;
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentPatientEditProfileBinding.inflate(inflater, container, false);
@@ -85,12 +86,11 @@ public class ProfileFragment extends Fragment {
             String phoneNumber = binding.metMobileNumber.getText().toString().trim();
             String email = binding.metEmail.getText().toString().trim();
             String gender = binding.spGender.getSelectedItem().toString().trim();
-            long birthDay = convertTimeToLong(binding.metDob.getText().toString().trim())+1000;
+            long birthDay = convertTimeToLong(binding.metDob.getText().toString().trim())+25200100;
             String imageBase64="data:image/png;base64,"+convertBase64(((BitmapDrawable)binding.patientImage.getDrawable()).getBitmap());
             String address= binding.metAddress.getText().toString().trim();
-            String HealthInsuranceCode=binding.healthInsuranceCode.getText().toString().trim();
             PatientModel patient= new PatientModel(idNumber,fullName,email,phoneNumber,address,gender,
-                    birthDay,imageBase64,HealthInsuranceCode);
+                    birthDay,imageBase64);
             loadingProgressBar.setVisibility(View.VISIBLE);
             API.apiService.updatePatient(patient.getCMND(),patient).enqueue(new Callback<PatientModel>() {
                 @Override
@@ -100,7 +100,7 @@ public class ProfileFragment extends Fragment {
                     if(code!=200 && response.body()==null){
                         showNotify("Lỗi kết nối server",false);
                     }else{
-                        getLoginInfo(response.body().getCMND(),response.body().getEMAIL());
+                        getLoginInfo(response.body().getHOTEN(),response.body().getEMAIL());
                         showNotify("Cập nhật thông tin thành công",true);
                     }
 
@@ -114,15 +114,14 @@ public class ProfileFragment extends Fragment {
             });
         }
     }
-    private void setNav(String cmnd,String email, String image_url){
+    private void setNav(String fullName,String email, String image_url){
         NavigationView navigationView= getActivity().findViewById(R.id.nav_view);
         View header = navigationView.getHeaderView(0);
         TextView tvName =header.findViewById(R.id.user_name);
         TextView tvemail = header.findViewById(R.id.email_user);
-        ImageView imageView = header.findViewById(R.id.imageView);
-        tvName.setText(cmnd);
+        tvName.setText(fullName);
         tvemail.setText(email);
-        setImage(imageView, image_url);
+
     }
     private void setImage(ImageView  imageView,String uri) {
         Glide.with(this).load(uri)
@@ -140,13 +139,16 @@ public class ProfileFragment extends Fragment {
                     }
                 }).into(imageView);
     }
-    private void getLoginInfo(String cmnd,String email) {
+    private void getLoginInfo(String fullName,String email) {
         userDao= db.userDao();
         API.apiService.getLoginPatient(userDao.getLogin().getUsername()).enqueue(new Callback<UserPatient>() {
             @Override
             public void onResponse(Call<UserPatient> call, Response<UserPatient> response) {
                 if(response.body()!=null&response.code()==200){
-                    setNav(cmnd,email,response.body().getImage());
+                    LoginInfoModel userLogin=userDao.getLogin();
+                    userLogin.setImage_url(response.body().getImage());
+                    userDao.update(userLogin);
+                    setNav(fullName,email,response.body().getImage());
                 }
             }
 
@@ -217,7 +219,6 @@ public class ProfileFragment extends Fragment {
             binding.metMobileNumber.setText(patient.getSODIENTHOAI());
             setUpGenderSpinner();
             setImage();
-            binding.healthInsuranceCode.setText(patient.getBHYT());
         }catch (Exception e){
 
         }
@@ -228,12 +229,6 @@ public class ProfileFragment extends Fragment {
         } else {
             this.isFullName = false;
             binding.metFullName.setError(getString(R.string.enter_your_name));
-        }
-        if (!binding.metIdentityNumber.getText().toString().equals("")) {
-            this.isIdentityNumber = true;
-        } else {
-            this.isIdentityNumber= false;
-            binding.metIdentityNumber.setError(getString(R.string.enter_your_identity_card));
         }
         if (!binding.metEmail.getText().toString().equals("")) {
             this.isEmail = true;
@@ -271,14 +266,8 @@ public class ProfileFragment extends Fragment {
             this.isAddress = false;
             binding.metAddress.setError(getString(R.string.enter_your_address));
         }
-        if (!binding.healthInsuranceCode.getText().toString().equals("")) {
-            this.isHealthInsuranceNumber = true;
-        } else {
-            this.isHealthInsuranceNumber = false;
-            binding.healthInsuranceCode.setError(getString(R.string.enter_health_insurance_code));
-        }
-        if (!this.isFullName || !this.isIdentityNumber || !this.isMobileNumber || !this.isEmail
-                || !this.isBirthDay || !this.isGender || !this.isAddress || !this.isHealthInsuranceNumber) {
+        if (!this.isFullName || !this.isMobileNumber || !this.isEmail
+                || !this.isBirthDay || !this.isGender || !this.isAddress) {
             return false;
         }
         return true;

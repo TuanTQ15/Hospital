@@ -43,9 +43,9 @@ public class LoginActivity extends AppCompatActivity {
         loadingProgressBar = findViewById(R.id.loading);
         username =  findViewById(R.id.user_name);
         password = findViewById(R.id.pass);
-        username.setText("241718850");
-        password.setText("123456quoctuan");
-        mLogin = findViewById(R.id.button_login);
+        username.setText("doctor1503");
+        password.setText("123456789");
+        mLogin = findViewById(R.id.button_change);
         userDao= db.userDao();
         mLogin.setOnClickListener(new View.OnClickListener() {
             @Override

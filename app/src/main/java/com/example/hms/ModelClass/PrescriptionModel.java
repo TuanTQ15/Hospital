@@ -11,6 +11,7 @@ import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -60,7 +61,12 @@ public class PrescriptionModel implements Serializable {
     }
 
     public List<DetailPrescription> getDetailPrescriptionList() {
-        return detailPrescriptionList;
+        if(detailPrescriptionList!=null){
+            return detailPrescriptionList;
+        }
+        else {
+            return Collections.emptyList();
+        }
     }
 
     public void setDetailPrescriptionList(List<DetailPrescription> detailPrescriptionList) {

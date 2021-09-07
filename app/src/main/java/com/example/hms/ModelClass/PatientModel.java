@@ -22,12 +22,10 @@ public class PatientModel implements Serializable {
     private long NGAYSINH;
     @SerializedName("HINHANH")
     private String HINHANH;
-    @SerializedName("BHYT")
-    private String BHYT;
     @SerializedName("DOITUONG")
     private String DOITUONG="Nội Trú";
     public PatientModel(String CMND, String HOTEN, String EMAIL, String SODIENTHOAI,
-                        String DIACHI, String GIOITINH, long NGAYSINH, String HINHANH,String BHYT) {
+                        String DIACHI, String GIOITINH, long NGAYSINH, String HINHANH) {
         this.CMND = CMND;
         this.HOTEN = HOTEN;
         this.EMAIL = EMAIL;
@@ -36,7 +34,6 @@ public class PatientModel implements Serializable {
         this.GIOITINH = GIOITINH;
         this.NGAYSINH = NGAYSINH;
         this.HINHANH = HINHANH;
-        this.BHYT = BHYT;
     }
 
     public String getCMND() {
@@ -103,11 +100,4 @@ public class PatientModel implements Serializable {
         this.HINHANH = HINHANH;
     }
 
-    public String getBHYT() {
-        return BHYT;
-    }
-
-    public void setBHYT(String BHYT) {
-        this.BHYT = BHYT;
-    }
 }

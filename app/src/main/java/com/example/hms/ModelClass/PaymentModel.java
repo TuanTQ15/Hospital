@@ -13,13 +13,13 @@ public class PaymentModel implements Serializable {
     @SerializedName("advances")
     private long advances;
     @SerializedName("rooms")
-    private Room rooms;
+    private List<Room> rooms;
     @SerializedName("services")
     private List<Services> services;
     @SerializedName("medicines")
     private List<Medicine> medicines;
 
-    public PaymentModel(int status,String medicalRecord, long advances, Room rooms, List<Services> services, List<Medicine> medicines) {
+    public PaymentModel(int status,String medicalRecord, long advances, List<Room> rooms, List<Services> services, List<Medicine> medicines) {
         this.medicalRecord=medicalRecord;
         this.status = status;
         this.advances = advances;
@@ -52,11 +52,11 @@ public class PaymentModel implements Serializable {
         this.advances = advances;
     }
 
-    public Room getRooms() {
+    public List<Room> getRooms() {
         return rooms;
     }
 
-    public void setRooms(Room rooms) {
+    public void setRooms(List<Room> rooms) {
         this.rooms = rooms;
     }
 

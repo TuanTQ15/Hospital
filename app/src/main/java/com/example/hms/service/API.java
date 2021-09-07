@@ -1,11 +1,15 @@
 package com.example.hms.service;
 
+import com.example.hms.ModelClass.ChangePassword;
 import com.example.hms.ModelClass.EmployeeModel;
 import com.example.hms.ModelClass.LoginInfoModel;
 import com.example.hms.ModelClass.MedicalRecordModel;
 import com.example.hms.ModelClass.PatientModel;
 import com.example.hms.ModelClass.PaymentModel;
 import com.example.hms.ModelClass.PrescriptionModel;
+import com.example.hms.ModelClass.ReceiptModel;
+import com.example.hms.ModelClass.StatisticTreament;
+import com.example.hms.ModelClass.UserDoctor;
 import com.example.hms.ModelClass.UserPatient;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -21,6 +25,7 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface API {
     Gson gson = new GsonBuilder().create();
@@ -33,8 +38,10 @@ public interface API {
 
     @POST("api/login")
     Call<LoginInfoModel> login(@Body RequestBody requestBody);
+
     @GET("api/patients/{CMND}")
     Call<PatientModel> getPatient(@Path("CMND") String CMND);
+
     @GET("api/patients/login/{CMND}")
     Call<UserPatient> getLoginPatient(@Path("CMND") String CMND);
 
@@ -49,8 +56,29 @@ public interface API {
     Call<List<MedicalRecordModel>> getAllMedicalRecord(@Path("CMND") String CMND);
 
     @GET("api/employees")
-    Call <List<EmployeeModel>> getAllEmployees();
+    Call<List<EmployeeModel>> getAllEmployees();
+    @PUT("api/employees/{maNV}")
+    Call<EmployeeModel> udapteEmployee(@Path("maNV") String maNV,@Body EmployeeModel employeeModel);
+
+    @GET("api/employees/login/{maNV}")
+    Call<UserDoctor> getLoginDoctor(@Path("maNV") String maNV);
 
     @GET("api/patients/payment/{CMND}")
-    Call <PaymentModel> getHospitalFee(@Path("CMND") String CMND);
+    Call<PaymentModel> getHospitalFee(@Path("CMND") String CMND);
+
+    @POST("api/patients/payment")
+    Call<ReceiptModel> createReceiptment(@Body ReceiptModel receiptModel);
+
+    @PUT("api/patients/password/change")
+    Call<String> changePasssword(@Body ChangePassword changePassword);
+
+    @PUT("api/employees/password/change")
+    Call<String> changePassswordEmployee(@Body ChangePassword changePassword);
+    @GET("api/departments/statistic/treatment")
+    Call<List<StatisticTreament>> getDataSet(@Query("DATEFROM") long dateFrom, @Query("DATETO") long dateTo);
+
+    @GET("api/employees/{maNV}")
+    Call <EmployeeModel> getEmployee(@Path("maNV") String maNV);
+
 }
+

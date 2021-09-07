@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
 
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_white">
+    android:background="@color/color_white"
+    android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardViewGraph"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="0dp"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="15dp"
         android:layout_marginRight="20dp"
+        android:layout_weight="5"
         android:elevation="10dp"
         app:cardCornerRadius="10dp">
 
@@ -22,121 +24,23 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:weightSum="2">
 
-            <org.eazegraph.lib.charts.PieChart xmlns:app="http://schemas.android.com/apk/res-auto"
+            <TextView
+                android:id="@+id/textView15"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|top"
+                android:text="Treatment Visits by Department"
+                android:textColor="@color/teal_700"
+                android:textSize="18sp" />
+
+            <com.github.mikephil.charting.charts.PieChart
                 android:id="@+id/piechart"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="15dp"
-                android:layout_weight="1"
-                android:padding="6dp"
-
-                />
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="20dp"
-                android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="15dp"
-                    android:layout_gravity="center_vertical">
-
-
-                    <View
-                        android:layout_width="15dp"
-                        android:layout_height="match_parent"
-                        android:background="@color/R" />
-
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingLeft="10dp"
-                        android:text="Lâm Sàng"
-                        android:textColor="@color/black" />
-
-                </LinearLayout>
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="15dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginTop="5dp">
-
-                    <!--View to display the green color icon-->
-                    <View
-                        android:layout_width="15dp"
-                        android:layout_height="match_parent"
-                        android:background="@color/Python" />
-
-                    <!--Text view to display python text -->
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingLeft="10dp"
-                        android:text="Tim"
-                        android:textColor="@color/black" />
-
-                </LinearLayout>
-
-                <!--Linear layout to display C++-->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="15dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginTop="5dp">
-
-                    <!--View to display the red color icon-->
-                    <View
-                        android:layout_width="15dp"
-                        android:layout_height="match_parent"
-                        android:background="@color/CPP" />
-
-                    <!--Text view to display C++ text -->
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:paddingLeft="10dp"
-                        android:text="Mắt"
-                        android:textColor="@color/black" />
-
-                </LinearLayout>
-
-                <!--Linear layout to display Java-->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="15dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginTop="5dp">
-
-                    <!--View to display the blue color icon-->
-                    <View
-                        android:layout_width="15dp"
-                        android:layout_height="match_parent"
-                        android:background="@color/Java" />
-
-                    <!--Text view to display Java text -->
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingLeft="10dp"
-                        android:text="Truyền Nhiễm"
-                        android:textColor="@color/black" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
+                android:layout_margin="15dp" />
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
@@ -145,179 +49,136 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/details"
         android:layout_width="match_parent"
-        android:layout_height="260dp"
-        android:layout_below="@+id/cardViewGraph"
+        android:layout_height="0dp"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginBottom="20dp"
+        android:layout_weight="5"
         android:elevation="10dp"
         app:cardCornerRadius="10dp">
 
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
-
-            <!--View to display the line-->
-            <View
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginRight="20dp"
-                android:background="@color/color_two" />
+                android:layout_height="0dp"
+                android:layout_weight="3"
+                android:orientation="horizontal">
 
-            <RelativeLayout
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="7"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_gravity="center"
+                        android:layout_margin="5.0dip"
+                        android:layout_weight="1.2"
+                        android:background="@color/reg_back"
+                        android:weightSum="100.0">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_margin="5.0dip"
+                            android:layout_weight="15"
+                            android:padding="5.0dip"
+                            android:text="From"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/Normal_Text_Size" />
+
+                        <TextView
+                            android:id="@+id/date_from"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="70"
+                            android:focusableInTouchMode="false"
+                            android:gravity="center"
+                            android:text="-Select Day-"
+                            android:textColor="@color/black"
+                            android:textSize="16sp" />
+
+                        <ImageButton
+                            android:id="@+id/choose_date_from"
+                            android:layout_width="0dp"
+                            android:layout_height="36dp"
+                            android:layout_gravity="center"
+                            android:layout_weight="10"
+                            android:src="@drawable/ic_calendar"
+                            tools:ignore="SpeakableTextPresentCheck" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_gravity="center"
+                        android:layout_margin="5.0dip"
+                        android:layout_weight="1.2"
+                        android:background="@color/reg_back"
+                        android:weightSum="100.0">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_margin="5.0dip"
+                            android:layout_weight="15"
+                            android:padding="5.0dip"
+                            android:text="To"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/Normal_Text_Size" />
+
+
+                        <TextView
+                            android:id="@+id/date_to"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_weight="70"
+                            android:focusableInTouchMode="false"
+                            android:gravity="center"
+                            android:text="-Select Day-"
+                            android:textColor="@color/black"
+                            android:textSize="16sp" />
+
+                        <ImageButton
+                            android:id="@+id/choose_date_to"
+                            android:layout_width="0dp"
+                            android:layout_height="36dp"
+                            android:layout_gravity="center"
+                            android:layout_weight="10"
+                            android:src="@drawable/ic_calendar" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/btnOk"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1.2"
+                    android:gravity="center"
+                    android:text="OK" />
+
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/list_data"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="25dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="25dp"
-                android:layout_marginBottom="10dp">
-
-                <!--Text view to display R -->
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-light"
-                    android:text="Lâm Sàng"
-                    android:textColor="@color/black"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/tvR"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:fontFamily="sans-serif-light"
-                    android:text="0"
-                    android:textAlignment="textEnd"
-                    android:textColor="@color/black"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-            </RelativeLayout>
-
-            <!--View to display the line-->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:background="@color/color_two" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="25dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="25dp"
-                android:layout_marginBottom="10dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-light"
-                    android:text="Tim"
-                    android:textColor="@color/black"
-                    android:textSize="18sp" />
-
-
-                <TextView
-                    android:id="@+id/tvPython"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="4dp"
-                    android:fontFamily="sans-serif-light"
-                    android:text="0"
-                    android:textAlignment="textEnd"
-                    android:textColor="@color/black"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:background="@color/color_two" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="25dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="25dp"
-                android:layout_marginBottom="10dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-light"
-                    android:text="Mắt"
-                    android:textSize="18sp"
-                    android:textColor="@color/black" />
-
-
-                <TextView
-                    android:id="@+id/tvCPP"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:fontFamily="sans-serif-light"
-                    android:text="0"
-                    android:textAlignment="textEnd"
-                    android:textColor="@color/black"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:background="@color/color_two" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="25dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="25dp"
-                android:layout_marginBottom="10dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-light"
-                    android:text="Truyền Nhiễm"
-                    android:textColor="@color/black"
-                    android:textSize="18sp" />
-
-
-                <TextView
-                    android:id="@+id/tvJava"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:fontFamily="sans-serif-light"
-                    android:text="0"
-                    android:textAlignment="textEnd"
-                    android:textColor="@color/black"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-            </RelativeLayout>
+                android:layout_height="0dp"
+                android:layout_weight="7" />
 
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
 
-</RelativeLayout>
+</LinearLayout>

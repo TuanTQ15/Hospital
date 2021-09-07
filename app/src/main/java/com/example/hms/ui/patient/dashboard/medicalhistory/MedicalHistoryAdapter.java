@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -24,7 +25,7 @@ public class MedicalHistoryAdapter extends
     private List<MedicalHistoryModel> medicalHistorys;
     private  List<EmployeeModel> employeeModels;
     private ItemClick mItemClick;
-
+    public Button btnDetail;
     // Pass in the contact array into the constructor
     public MedicalHistoryAdapter(ItemClick itemClick) {
         mItemClick = itemClick;
@@ -46,7 +47,6 @@ public class MedicalHistoryAdapter extends
         public TextView tvDiagnose;
         public TextView tvDateExam;
         public TextView tvStatus;
-        public CardView medicalHistoryContainer;
         private String doctorName="",nurseName="";
         private ItemClick mItemClick;
         // We also create a constructor that accepts the entire item row
@@ -62,7 +62,7 @@ public class MedicalHistoryAdapter extends
             tvDiagnose = itemView.findViewById(R.id.diagnose);
             tvDateExam = itemView.findViewById(R.id.date_exam);
             tvStatus = itemView.findViewById(R.id.status);
-            medicalHistoryContainer = itemView.findViewById(R.id.container);
+            btnDetail = itemView.findViewById(R.id.button);
         }
 
         public void bind(MedicalHistoryModel medicalHistory) {
@@ -79,13 +79,14 @@ public class MedicalHistoryAdapter extends
             tvDiagnose.setText(medicalHistory.getDiagnose());
             tvDateExam.setText(medicalHistory.getDateExam());
             tvStatus.setText(medicalHistory.getStatus());
-            medicalHistoryContainer.setOnClickListener((v) -> {
-                mItemClick.click(medicalHistory);
-            });
+            if (medicalHistory.getPrescription()!=null){
+                btnDetail.setOnClickListener(v -> mItemClick.click(medicalHistory));
+            }else{
+                btnDetail.setEnabled(false);
+            }
 
         }
     }
-
 
     @NonNull
     @NotNull

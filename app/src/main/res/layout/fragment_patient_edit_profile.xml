@@ -70,7 +70,8 @@
                     android:layout_gravity="center"
                     android:layout_weight="70.0"
                     android:hint="@string/enter_your_full_name"
-                    android:padding="5.0dip" />
+                    android:padding="5.0dip"
+                    android:textColor="@color/black" />
             </LinearLayout>
 
             <LinearLayout
@@ -105,14 +106,15 @@
                     android:textSize="@dimen/Normal_Text_Size"
                     android:textStyle="bold" />
 
-                <com.rengwuxian.materialedittext.MaterialEditText
+                <TextView
                     android:id="@+id/met_identity_number"
                     android:layout_width="0.0dip"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="70.0"
-                    android:hint="@string/enter_your_identity_card"
-                    android:padding="5.0dip" />
+                    android:padding="5.0dip"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -155,7 +157,8 @@
                     android:layout_weight="70.0"
                     android:hint="@string/enter_your_email_address"
                     android:inputType="textEmailAddress"
-                    android:padding="5.0dip" />
+                    android:padding="5.0dip"
+                    android:textColor="@color/black" />
             </LinearLayout>
 
             <LinearLayout
@@ -198,7 +201,8 @@
                     android:layout_weight="70.0"
                     android:hint="@string/enter_your_mobile_number"
                     android:inputType="number"
-                    android:padding="5.0dip" />
+                    android:padding="5.0dip"
+                    android:textColor="@color/black" />
             </LinearLayout>
             <ProgressBar
                 android:id="@+id/loading"
@@ -274,7 +278,8 @@
                     android:layout_weight="57"
                     android:focusableInTouchMode="false"
                     android:hint="@string/select_your_date_of_birth"
-                    android:padding="5.0dip" />
+                    android:padding="5.0dip"
+                    android:textColor="@color/black" />
 
                 <ImageButton
                     android:id="@+id/calendar_choose"
@@ -375,51 +380,8 @@
                     android:layout_gravity="center"
                     android:layout_weight="70.0"
                     android:hint="@string/enter_your_address"
-                    android:padding="5.0dip" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="5.0dip"
-                android:background="@color/reg_back"
-                android:orientation="horizontal"
-                android:weightSum="100.0">
-
-                <TextView
-                    android:layout_width="0.0dip"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_margin="5.0dip"
-                    android:layout_weight="25.0"
-                    android:gravity="center"
                     android:padding="5.0dip"
-                    android:text="@string/health_insurance_code"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/Normal_Text_Size" />
-
-                <TextView
-                    android:layout_width="0.0dip"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="5.0"
-                    android:gravity="start"
-                    android:text="*"
-                    android:textAlignment="viewStart"
-                    android:textColor="@color/red"
-                    android:textSize="@dimen/Normal_Text_Size"
-                    android:textStyle="bold" />
-
-                <com.rengwuxian.materialedittext.MaterialEditText
-                    android:id="@+id/health_insurance_code"
-                    android:layout_width="0.0dip"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="70.0"
-                    android:hint="@string/enter_health_insurance_code"
-                    android:inputType="text"
-                    android:padding="5.0dip" />
+                    android:textColor="@color/black" />
             </LinearLayout>
 
             <com.google.android.material.button.MaterialButton

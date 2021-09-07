@@ -137,7 +137,7 @@
                         android:layout_margin="5dp"
                         android:gravity="center"
                         android:lines="2"
-                        android:text="View Lab Reports"
+                        android:text="View Service Report"
                         android:textColor="#ff717171"
                         android:textSize="12.0sp"
                         android:textStyle="bold" />
@@ -195,12 +195,15 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="125dp"
                 android:layout_height="120dp"
-                android:layout_marginEnd="10dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?android:attr/selectableItemBackground"
+                android:layout_marginStart="10dp"
                 app:cardCornerRadius="10dp"
                 app:cardElevation="0.0dip">
 
                 <LinearLayout
-                    android:id="@+id/bed_infor"
+                    android:id="@+id/change_password"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:gravity="center"
@@ -213,7 +216,7 @@
                         android:layout_width="65dp"
                         android:layout_height="65dp"
                         android:padding="5dp"
-                        android:src="@drawable/ic_bed" />
+                        android:src="@drawable/ic_lock" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -221,7 +224,7 @@
                         android:layout_margin="5dp"
                         android:gravity="center"
                         android:lines="2"
-                        android:text="Bed Information"
+                        android:text="Change Password"
                         android:textColor="#ff717171"
                         android:textSize="12.0sp"
                         android:textStyle="bold" />
