@@ -1,6 +1,7 @@
 package com.example.hms.ui.patient.dashboard.payment;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -8,7 +9,10 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -16,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.hms.ModelClass.MedicalRecordModel;
 import com.example.hms.ModelClass.Medicine;
 import com.example.hms.ModelClass.PaymentModel;
 import com.example.hms.ModelClass.ReceiptModel;
@@ -73,21 +78,70 @@ public class PaymentActivity extends AppCompatActivity {
     private ServiceAdapter serviceAdapter;
     private MedicineAdapter medicineAdapter;
     private RoomAdapter roomAdapter;
+    private ProgressBar progressBar;
     private RecyclerView serviceRecycle,medicineRecycle,roomRecycle;
     private long roomFee=0,serviceFee=0,medicineFree=0,total=0,total_p=0;
     private DecimalFormat df = new DecimalFormat("###,### VNĐ");
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getData();
+    }
+
+    private void getData() {
         userDao=db.userDao();
-        getHospitalFee(userDao.getLogin().getUsername());
+        String maBa="";
+        if (getIntent().getExtras() != null) {
+            maBa = (String) getIntent().getSerializableExtra("MABA");
+        }
+        getHospitalFee(maBa);
+    }
+    private void getHospitalFee(String maBA) {
+        API.apiService.getHospitalFee(maBA).enqueue(new Callback<PaymentModel>() {
+            @Override
+            public void onResponse(Call<PaymentModel> call, Response<PaymentModel> response) {
+                if(response.code()==200 && response.body()!=null){
+                    PaymentModel payment= response.body();
+                    setControl(payment);
+                }
+            }
+            @Override
+            public void onFailure(Call<PaymentModel> call, Throwable t) {
+                System.out.println("loi");
+            }
+        });
+    }
+    private void setControl(PaymentModel payment) {
+        total=getToTal(payment);
+        if(total > 0&&payment.getStatus()==0){
+            setContentView(R.layout.activity_payback);
+            TextView tvTotalPayback =findViewById(R.id.total_payback);
+            tvTotalPayback.setText(df.format(total));
+        }else {
+            setContentView(R.layout.activity_payment);
+            userDao=db.userDao();
+            progressBar = findViewById(R.id.progressBar2);
+            tvFullName = findViewById(R.id.full_name);
+            tvAdvances = findViewById(R.id.advances);
+            tvTotalFee = findViewById(R.id.total_pay);
+            tvStatus =findViewById(R.id.status);
+            serviceRecycle =findViewById(R.id.service_recycle);
+            medicineRecycle =findViewById(R.id.medicine_recycle);
+            roomRecycle =findViewById(R.id.room_recycle);
+            tvMedicineFee =findViewById(R.id.p_medicine);
+            tvRoomFee =findViewById(R.id.p_room);
+            tvServiceFee =findViewById(R.id.p_service);
+            tvTotal_P =findViewById(R.id.total_fee);
+            tvFullName.setText(userDao.getLogin().getFullname());
+            createServiceApdater();
+            createMedicineApdater();
+            createRoomApdater();
+            setEvent(payment);
+        }
     }
 
     private void setEvent(PaymentModel payment) {
-        if(total<0){
-            total=-1*total;
-        }
-        tvTotalFee.setText(df.format(total));
+        payPalButton = findViewById(R.id.payPalButton);
         tvTotal_P.setText(df.format(total_p));
         tvAdvances.setText(df.format(payment.getAdvances()));
         tvServiceFee.setText(df.format(serviceFee));
@@ -96,16 +150,48 @@ public class PaymentActivity extends AppCompatActivity {
         serviceAdapter.setServices(payment.getServices());
         medicineAdapter.setMedicines(payment.getMedicines());
         roomAdapter.setRooms(payment.getRooms());
-        payPalButton = findViewById(R.id.payPalButton);
         if(payment.getStatus()==0){
+            if(total<0){
+                total=-1*total;
+            }
             tvTotalFee.setText(df.format(total));
             tvStatus.setText("Còn nợ");
-        }else if(payment.getStatus()==1){
+            setButtonPaypal(payment, total);
+        }else if(payment.getStatus()==1&&total>0){
+            if(total<0){
+                total=-1*total;
+            }
             tvStatus.setText("Đã hoàn trả");
             tvTotalFee.setText(df.format(total));
             payPalButton.setVisibility(View.GONE);
+        }else if(payment.getStatus()==1&&total<0){
+            if(total<0){
+                total=-1*total;
+            }
+            tvStatus.setText("Đã thanh toán");
+            tvTotalFee.setText(df.format(total));
+            payPalButton.setVisibility(View.GONE);
         }
-        setButtonPaypal(payment, total);
+        int sizeRoom=payment.getRooms().size(), sizeServices=payment.getServices().size(), sizeMedicne=payment.getMedicines().size();
+        if(sizeRoom==0){
+            LinearLayout layoutRoom = findViewById(R.id.layout_room);
+            View viewRoom = findViewById(R.id.view2);
+            layoutRoom.setVisibility(View.GONE);
+            viewRoom.setVisibility(View.GONE);
+        }
+        if(sizeServices==0){
+            LinearLayout layoutSerivce = findViewById(R.id.layout_service);
+            View viewRoom = findViewById(R.id.view3);
+            layoutSerivce.setVisibility(View.GONE);
+            viewRoom.setVisibility(View.GONE);
+        }
+        if(sizeMedicne==0){
+            LinearLayout layoutRoom = findViewById(R.id.layout_medicine);
+            layoutRoom.setVisibility(View.GONE);
+        }
+        if(sizeRoom==0&&sizeServices==0&&sizeMedicne==0){
+            payPalButton.setVisibility(View.GONE);
+        }
     }
     private long getToTal(PaymentModel payment){
         List<Services> services=payment.getServices();
@@ -121,61 +207,10 @@ public class PaymentActivity extends AppCompatActivity {
             roomFee+=(room.getPrice()*room.getTotalDay());
         }
         total_p=medicineFree+serviceFee+roomFee;
+
         return payment.getAdvances()-total_p;
     }
-    private void setButtonPaypal(PaymentModel payment,long total) {
-        DecimalFormat df = new DecimalFormat("###.##");
-        String value= df.format(total/ 22435);
-        payPalButton.setup(
-                new CreateOrder() {
-                    @Override
-                    public void create(@NotNull CreateOrderActions createOrderActions) {
-                        ArrayList purchaseUnits = new ArrayList<>();
-                        purchaseUnits.add(new PurchaseUnit.Builder()
-                                .amount(
-                                        new Amount.Builder()
-                                                .currencyCode(CurrencyCode.USD)
-                                                .value(value)
-                                                .build()
-                                )
-                                .build()
-                        );
-                        Order order = new Order(
-                                OrderIntent.CAPTURE,
-                                new AppContext.Builder()
-                                        .userAction(UserAction.PAY_NOW)
-                                        .build(),
-                                purchaseUnits
-                        );
-                        createOrderActions.create(order, (CreateOrderActions.OnOrderCreated) null);
-                    }
-                },
-                new OnApprove() {
-                    @Override
-                    public void onApprove(@NotNull Approval approval) {
-                        approval.getOrderActions().capture(new OnCaptureComplete() {
-                            @Override
-                            public void onCaptureComplete(@NotNull CaptureOrderResult result) {
-                                createReceiptment(payment);
-                                lauchComplete(payment);
-                            }
-                        });
-                    }
-                },
-                new OnCancel() {
-                    @Override
-                    public void onCancel() {
-                        Log.d("OnCancel", "Buyer cancelled the PayPal experience.");
-                    }
-                },
-                new OnError() {
-                    @Override
-                    public void onError(@NotNull ErrorInfo errorInfo) {
-                        showNotify("Payment failed, please try again");
-                    }
-                }
-        );
-    }
+
     private void createReceiptment(PaymentModel payment){
         userDao=db.userDao();
         ReceiptModel receiptModel = new ReceiptModel(total_p,"",medicineFree,payment.getMedicalRecord(),roomFee,payment.getAdvances(),serviceFee,total_p);
@@ -196,6 +231,8 @@ public class PaymentActivity extends AppCompatActivity {
     private void lauchComplete(PaymentModel payment) {
         Intent intent = new Intent(this, SuccessActivity.class);
         intent.putExtra("payment", payment);
+//        dialog.dismiss();
+        finish();
         startActivity(intent);
     }
 
@@ -228,48 +265,66 @@ public class PaymentActivity extends AppCompatActivity {
         medicineRecycle.setLayoutManager(llm);
         medicineRecycle.setAdapter(medicineAdapter);
     }
-    private void setControl(PaymentModel payment) {
-        total=getToTal(payment);
-        if(total > 0&&payment.getStatus()==0){
-            setContentView(R.layout.activity_payback);
-            TextView tvTotalPayback =findViewById(R.id.total_payback);
-            tvTotalPayback.setText(df.format(total));
-        }else {
-            setContentView(R.layout.activity_payment);
-            userDao=db.userDao();
-            tvFullName = findViewById(R.id.full_name);
-            tvAdvances = findViewById(R.id.advances);
-            tvTotalFee = findViewById(R.id.total_pay);
-            tvStatus =findViewById(R.id.status);
-            serviceRecycle =findViewById(R.id.service_recycle);
-            medicineRecycle =findViewById(R.id.medicine_recycle);
-            roomRecycle =findViewById(R.id.room_recycle);
-            tvMedicineFee =findViewById(R.id.p_medicine);
-            tvRoomFee =findViewById(R.id.p_room);
-            tvServiceFee =findViewById(R.id.p_service);
-            tvTotal_P =findViewById(R.id.total_fee);
-            tvFullName.setText(userDao.getLogin().getFullname());
-            createServiceApdater();
-            createMedicineApdater();
-            createRoomApdater();
-            setEvent(payment);
-        }
+    private ProgressDialog dialog;
+    private void showProgressBar(){
+        dialog = ProgressDialog.show(this, "",
+                "Loading. Please wait...", true);
     }
-
-    private void getHospitalFee(String CMND) {
-        API.apiService.getHospitalFee(CMND).enqueue(new Callback<PaymentModel>() {
-            @Override
-            public void onResponse(Call<PaymentModel> call, Response<PaymentModel> response) {
-                if(response.code()==200 && response.body()!=null){
-                    PaymentModel payment= response.body();
-                    setControl(payment);
+    private void setButtonPaypal(PaymentModel payment,long total) {
+        DecimalFormat df = new DecimalFormat("###.##");
+        String value= df.format(total/ 22435);
+        payPalButton.setup(
+                new CreateOrder() {
+                    @Override
+                    public void create(@NotNull CreateOrderActions createOrderActions) {
+                        ArrayList purchaseUnits = new ArrayList<>();
+                        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                                WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                        purchaseUnits.add(new PurchaseUnit.Builder()
+                                .amount(
+                                        new Amount.Builder()
+                                                .currencyCode(CurrencyCode.USD)
+                                                .value(value)
+                                                .build()
+                                )
+                                .build()
+                        );
+                        Order order = new Order(
+                                OrderIntent.CAPTURE,
+                                new AppContext.Builder()
+                                        .userAction(UserAction.PAY_NOW)
+                                        .build(),
+                                purchaseUnits
+                        );
+                        createOrderActions.create(order, (CreateOrderActions.OnOrderCreated) null);
+                    }
+                },
+                new OnApprove() {
+                    @Override
+                    public void onApprove(@NotNull Approval approval) {
+                        approval.getOrderActions().capture(new OnCaptureComplete() {
+                            @Override
+                            public void onCaptureComplete(@NotNull CaptureOrderResult result) {
+                                createReceiptment(payment);
+                                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                                lauchComplete(payment);
+                            }
+                        });
+                    }
+                },
+                new OnCancel() {
+                    @Override
+                    public void onCancel() {
+                        Log.d("OnCancel", "Buyer cancelled the PayPal experience.");
+                    }
+                },
+                new OnError() {
+                    @Override
+                    public void onError(@NotNull ErrorInfo errorInfo) {
+                        showNotify("Payment failed, please try again");
+                    }
                 }
-            }
-            @Override
-            public void onFailure(Call<PaymentModel> call, Throwable t) {
-                System.out.println("loi");
-            }
-        });
+        );
     }
     private void showNotify(String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AlertDialogCustom);

@@ -22,6 +22,8 @@
         <activity android:name=".ui.patient.dashboard.password.ChangePasswordActivity"/>
         <activity android:name=".ui.patient.dashboard.payment.PaymentActivity"/>
         <activity android:name=".ui.patient.dashboard.payment.SuccessActivity"/>
+        <activity android:name=".ui.patient.dashboard.payment.HospitalFeeActitvity"/>
+        <activity android:name=".util.NoDataAcitivity"/>
         <activity
             android:name="com.example.hms.ui.login.LoginActivity"
             android:label="@string/app_name"

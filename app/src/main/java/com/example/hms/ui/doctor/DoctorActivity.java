@@ -73,7 +73,7 @@ public class DoctorActivity extends BaseActivity<ActivityDoctorBinding, DoctorVi
         openFragment(getReportFragment(), getString(R.string.report));
         drawerToggle = new ActionBarDrawerToggle(this, binding.activityMainDrawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         binding.activityMainDrawer.addDrawerListener(drawerToggle);
-        binding.navView.setNavigationItemSelectedListener((item) -> {
+        binding.doctorNavView.setNavigationItemSelectedListener((item) -> {
             switch (item.getItemId()) {
                 case R.id.doctor_nav_logout:
                     startActivity(LoginActivity.class);
@@ -88,7 +88,7 @@ public class DoctorActivity extends BaseActivity<ActivityDoctorBinding, DoctorVi
                     openFragment(getChangePasswordFragment(), getString(R.string.doctor_change_pass));
                     break;
             }
-            binding.activityMainDrawer.closeDrawer(binding.navView);
+            binding.activityMainDrawer.closeDrawer(binding.doctorNavView);
             return drawerToggle.onOptionsItemSelected(item);
         });
     }
@@ -158,9 +158,9 @@ public class DoctorActivity extends BaseActivity<ActivityDoctorBinding, DoctorVi
     private ChangePasswordFragment changePasswordFragment=null;
     private final CompositeDisposable composite = new CompositeDisposable();
     private void setSelectedMenu(int index) {
-        binding.navView.getMenu().getItem(0).setChecked(index == 0);
-        binding.navView.getMenu().getItem(1).setChecked(index == 1);
-        binding.navView.getMenu().getItem(2).setChecked(index == 2);
+        binding.doctorNavView.getMenu().getItem(0).setChecked(index == 0);
+        binding.doctorNavView.getMenu().getItem(1).setChecked(index == 1);
+        binding.doctorNavView.getMenu().getItem(2).setChecked(index == 2);
     }
     public ProfileFragment getProfileFragment() {
         if(profileFragment == null){
@@ -203,13 +203,13 @@ public class DoctorActivity extends BaseActivity<ActivityDoctorBinding, DoctorVi
         Drawable drawable = getResources().getDrawable(R.drawable.ic_menu);
 //        drawable.setColorFilter(getResources().getColor(R.color.white) , PorterDuff.Mode.SRC_ATOP);
         actionBar.setHomeAsUpIndicator(drawable);
-        headerDrawerBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.layout_header_drawer, binding.navView, false);
+        headerDrawerBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.layout_header_drawer, binding.doctorNavView, false);
         setUpNavHeader();
     }
     private void setUpNavHeader() {
         userDao= db.userDao();
         LoginInfoModel loginInfoModel =userDao.getLogin();
-        View header = binding.navView.getHeaderView(0);
+        View header = binding.doctorNavView.getHeaderView(0);
         TextView tvName =header.findViewById(R.id.user_name);
         TextView email = header.findViewById(R.id.email_user);
         ImageView imageView = header.findViewById(R.id.imageView);
@@ -245,8 +245,8 @@ public class DoctorActivity extends BaseActivity<ActivityDoctorBinding, DoctorVi
             }
 
             if (bitmap != null) {
-                NavigationView navigationView= findViewById(R.id.nav_view);
-                View header = navigationView.getHeaderView(0);
+
+                View header = binding.doctorNavView.getHeaderView(0);
                 ImageView imageViewNav = header.findViewById(R.id.imageView);
                 ImageView imageView= findViewById(R.id.doctor_image);
                 imageView.setImageBitmap(bitmap);

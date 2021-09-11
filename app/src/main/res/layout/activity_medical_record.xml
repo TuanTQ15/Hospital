@@ -179,7 +179,7 @@
                 android:id="@+id/textView18"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="1.5"
                 android:gravity="center_vertical"
                 android:padding="5dp"
                 android:text="ToTal:"
@@ -203,6 +203,13 @@
 
 
         </androidx.recyclerview.widget.RecyclerView>
+
+        <TextView
+            android:id="@+id/textView17"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:visibility="gone" />
 
     </LinearLayout>
 

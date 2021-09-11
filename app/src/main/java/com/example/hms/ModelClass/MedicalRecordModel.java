@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.Serializable;
 import java.util.List;
 
-public class MedicalRecordModel implements Serializable {
+public class MedicalRecordModel implements Serializable{
     @PrimaryKey
     @NotNull
     @SerializedName("MABA")
@@ -79,7 +79,9 @@ public class MedicalRecordModel implements Serializable {
     public String getDate() {
         return DateUtil.convertTime(this.date,"dd/MM/yyyy HH:mm:ss");
     }
-
+    public Long getDateLong() {
+        return Long.valueOf(this.date);
+    }
     public void setDate(long date) {
         this.date = date;
     }
@@ -107,4 +109,5 @@ public class MedicalRecordModel implements Serializable {
     public void setMedicalHistorys(List<MedicalHistoryModel> medicalHistorys) {
         this.medicalHistorys = medicalHistorys;
     }
+
 }

@@ -20,7 +20,9 @@ import com.example.hms.service.API;
 import com.example.hms.service.MyApplication;
 import com.example.hms.ui.patient.prescription.DetailPrescriptionActivity;
 import com.example.hms.ui.patient.prescription.MedicineActivity;
+import com.example.hms.util.NoDataAcitivity;
 
+import java.text.ParsePosition;
 import java.util.Collections;
 import java.util.List;
 
@@ -74,6 +76,8 @@ public class MedicalHistoryActivity extends AppCompatActivity {
                 if(response.code()==200&&response.body()!=null){
                     List<MedicalRecordModel> medicalRecordModels =response.body();
                     getEmployee(medicalRecordModels);
+                }else if(response.code()==404){
+                    lauchNoData();
                 }
             }
 
@@ -84,6 +88,11 @@ public class MedicalHistoryActivity extends AppCompatActivity {
             }
         });
 
+    }
+    private void lauchNoData(){
+        Intent intent = new Intent(this, NoDataAcitivity.class);
+        finish();
+        startActivity(intent);
     }
     private void getEmployee(List<MedicalRecordModel> medicalRecordModels){
         API.apiService.getAllEmployees().enqueue(new Callback<List<EmployeeModel>>() {

@@ -63,8 +63,12 @@ public interface API {
     @GET("api/employees/login/{maNV}")
     Call<UserDoctor> getLoginDoctor(@Path("maNV") String maNV);
 
-    @GET("api/patients/payment/{CMND}")
-    Call<PaymentModel> getHospitalFee(@Path("CMND") String CMND);
+    //payment
+    @GET("api/medicalrecords/payment/{CMND}")
+    Call<List<MedicalRecordModel>> getMedicalRecord(@Path("CMND") String CMND);
+
+    @GET("api/patients/payment/{MABA}")
+    Call<PaymentModel> getHospitalFee(@Path("MABA") String MABA);
 
     @POST("api/patients/payment")
     Call<ReceiptModel> createReceiptment(@Body ReceiptModel receiptModel);

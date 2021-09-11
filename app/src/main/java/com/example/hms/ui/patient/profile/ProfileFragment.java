@@ -96,12 +96,13 @@ public class ProfileFragment extends Fragment {
                 @Override
                 public void onResponse(Call<PatientModel> call, Response<PatientModel> response) {
                     int code=response.code();
-                    loadingProgressBar.setVisibility(View.GONE);
+
                     if(code!=200 && response.body()==null){
+                        loadingProgressBar.setVisibility(View.GONE);
                         showNotify("Lỗi kết nối server",false);
                     }else{
-                        getLoginInfo(response.body().getHOTEN(),response.body().getEMAIL());
-                        showNotify("Cập nhật thông tin thành công",true);
+                        setNav(response.body().getHOTEN(),response.body().getEMAIL());
+
                     }
 
                 }
@@ -114,13 +115,19 @@ public class ProfileFragment extends Fragment {
             });
         }
     }
-    private void setNav(String fullName,String email, String image_url){
-        NavigationView navigationView= getActivity().findViewById(R.id.nav_view);
-        View header = navigationView.getHeaderView(0);
-        TextView tvName =header.findViewById(R.id.user_name);
-        TextView tvemail = header.findViewById(R.id.email_user);
-        tvName.setText(fullName);
-        tvemail.setText(email);
+    private void setNav(String fullName,String email){
+       try{
+           NavigationView navigationView= getActivity().findViewById(R.id.patient_nav_view);
+           View header = navigationView.getHeaderView(0);
+           TextView tvName =header.findViewById(R.id.user_name);
+           TextView tvemail = header.findViewById(R.id.email_user);
+           tvName.setText(fullName);
+           tvemail.setText(email);
+           loadingProgressBar.setVisibility(View.GONE);
+           showNotify("Cập nhật thông tin thành công",true);
+       }catch (Exception e){
+
+       }
 
     }
     private void setImage(ImageView  imageView,String uri) {
@@ -138,25 +145,6 @@ public class ProfileFragment extends Fragment {
                         return false;
                     }
                 }).into(imageView);
-    }
-    private void getLoginInfo(String fullName,String email) {
-        userDao= db.userDao();
-        API.apiService.getLoginPatient(userDao.getLogin().getUsername()).enqueue(new Callback<UserPatient>() {
-            @Override
-            public void onResponse(Call<UserPatient> call, Response<UserPatient> response) {
-                if(response.body()!=null&response.code()==200){
-                    LoginInfoModel userLogin=userDao.getLogin();
-                    userLogin.setImage_url(response.body().getImage());
-                    userDao.update(userLogin);
-                    setNav(fullName,email,response.body().getImage());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<UserPatient> call, Throwable t) {
-                System.out.println("");
-            }
-        });
     }
 
     private byte[] imageToByteArray(Bitmap bitmapImage) {
@@ -194,9 +182,22 @@ public class ProfileFragment extends Fragment {
 
         binding.btnUpdate.setOnClickListener(v -> setValueForProfile());
     }
+    @NonNull
+    protected DatePickerDialog getDatePicker() {
+        Calendar calendar = Calendar.getInstance();
+        DatePickerDialog dialog= new DatePickerDialog(getContext(),
+                getDatePickerCallBack(),
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH));
+        dialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+        return dialog;
+
+    }
     private DatePickerDialog.OnDateSetListener datePickerCallBack;
 
     protected DatePickerDialog.OnDateSetListener getDatePickerCallBack() {
+
         if (datePickerCallBack == null) {
             datePickerCallBack = (view, year, monthOfYear, dayOfMonth) -> {
                 Calendar calendar = Calendar.getInstance();
@@ -324,17 +325,7 @@ public class ProfileFragment extends Fragment {
         }
         return milliseconds;
     }
-    @NonNull
-    protected DatePickerDialog getDatePicker() {
-        Calendar calendar = Calendar.getInstance();
-        return new DatePickerDialog(
-                getContext(),
-                getDatePickerCallBack(),
-                calendar.get(Calendar.YEAR),
-                calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH)
-        );
-    }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();

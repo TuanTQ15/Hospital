@@ -28,6 +28,7 @@ import com.example.hms.service.API;
 import com.example.hms.service.MyApplication;
 import com.example.hms.ui.patient.dashboard.medicalhistory.MedicalHistoryActivity;
 import com.example.hms.ui.patient.prescription.MedicineActivity;
+import com.example.hms.util.NoDataAcitivity;
 
 import java.util.Collections;
 import java.util.List;
@@ -95,6 +96,8 @@ public class MedicalRecordActivity extends AppCompatActivity {
                 if(response.code()==200&&response.body()!=null){
                     List<MedicalRecordModel> medicalRecordModels =response.body();
                     getPatient(medicalRecordModels);
+                }else if(response.code()==404){
+                    lauchNoData();
                 }
             }
 
@@ -104,6 +107,11 @@ public class MedicalRecordActivity extends AppCompatActivity {
             }
         });
 
+    }
+    private void lauchNoData(){
+        Intent intent = new Intent(this, NoDataAcitivity.class);
+        finish();
+        startActivity(intent);
     }
     private void setEvent(PatientModel patient) {
         tvFullName.setText(patient.getHOTEN());
@@ -151,11 +159,12 @@ public class MedicalRecordActivity extends AppCompatActivity {
     }
 
     private void setMedicalHistoryAdapter(List<MedicalRecordModel> medicalRecordModels) {
-        if (medicalRecordModels.size() > 0) {
-            Collections.sort(medicalRecordModels, (o1, o2) -> o2.getDate().compareTo(o1.getDate()));
-        }
-        medicalHistoryAdapter.setMedicalRecordAdapter(medicalRecordModels);
-        tvTotal.setText(String.valueOf(medicalRecordModels.size()));
         loadingProgressBar.setVisibility(View.GONE);
+        if (medicalRecordModels.size() > 0) {
+            Collections.sort(medicalRecordModels, (o1, o2) -> o2.getDateLong().compareTo(o1.getDateLong()));
+            medicalHistoryAdapter.setMedicalRecordAdapter(medicalRecordModels);
+        }
+        tvTotal.setText(String.valueOf(medicalRecordModels.size()));
+
     }
 }

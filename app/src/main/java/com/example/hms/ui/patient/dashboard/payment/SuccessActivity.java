@@ -48,6 +48,7 @@ public class SuccessActivity extends AppCompatActivity {
         for(Room room : rooms){
             roomFee+=(room.getPrice()*room.getTotalDay());
         }
+        total=medicineFree+roomFee+serviceFee;
         tvAdvances.setText(df.format(payment.getAdvances()));
         tvTotal.setText(df.format(total));
         tvRoom.setText(df.format(roomFee));

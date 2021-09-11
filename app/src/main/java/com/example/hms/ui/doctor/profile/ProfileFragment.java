@@ -120,13 +120,14 @@ public class ProfileFragment extends Fragment {
     @NonNull
     protected DatePickerDialog getDatePicker() {
         Calendar calendar = Calendar.getInstance();
-        return new DatePickerDialog(
-                getContext(),
+        DatePickerDialog dialog= new DatePickerDialog(getContext(),
                 getDatePickerCallBack(),
                 calendar.get(Calendar.YEAR),
                 calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH)
-        );
+                calendar.get(Calendar.DAY_OF_MONTH));
+        dialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+        return dialog;
+
     }
     private void setUpDoctor(EmployeeModel employee){
         try{
@@ -243,13 +244,13 @@ public class ProfileFragment extends Fragment {
             API.apiService.udapteEmployee(employee.getEmployeeNumber(),new_employee).enqueue(new Callback<EmployeeModel>() {
                 @Override
                 public void onResponse(Call<EmployeeModel> call, Response<EmployeeModel> response) {
-                    binding.loading.setVisibility(View.GONE);
+
                     int code=response.code();
                     if(code!=200 && response.body()==null){
+                        binding.loading.setVisibility(View.GONE);
                         showNotify("Lỗi kết nối server",false);
                     }else{
-                        getLoginInfo(response.body().getFullName(),response.body().getEmployeeNumber(),response.body().getEmail());
-                        showNotify("Cập nhật thông tin thành công",true);
+                        setNav(fullName,email);
                     }
                 }
 
@@ -263,32 +264,19 @@ public class ProfileFragment extends Fragment {
 
         }
     }
-    private void getLoginInfo(String fullName,String maNV,String email) {
-        API.apiService.getLoginDoctor(maNV).enqueue(new Callback<UserDoctor>() {
-            @Override
-            public void onResponse(Call<UserDoctor> call, Response<UserDoctor> response) {
-                if(response.body()!=null&response.code()==200){
-                    LoginInfoModel userLogin=userDao.getLogin();
-                    userLogin.setImage_url(response.body().getImage());
-                    userDao.update(userLogin);
-                    setNav(fullName,email,response.body().getImage());
+    private void setNav(String fullName,String email){
+       try{
+           NavigationView navigationView=getActivity().findViewById(R.id.doctor_nav_view);
+           View header = navigationView.getHeaderView(0);
+           TextView tvName =header.findViewById(R.id.user_name);
+           TextView tvemail = header.findViewById(R.id.email_user);
+           tvName.setText(fullName);
+           tvemail.setText(email);
 
-                }
-            }
+           showNotify("Cập nhật thông tin thành công",true);
+       }catch (Exception e){
 
-            @Override
-            public void onFailure(Call<UserDoctor> call, Throwable t) {
-                System.out.println("");
-            }
-        });
-    }
-    private void setNav(String fullName,String email, String image_url){
-        NavigationView navigationView= getActivity().findViewById(R.id.nav_view);
-        View header = navigationView.getHeaderView(0);
-        TextView tvName =header.findViewById(R.id.user_name);
-        TextView tvemail = header.findViewById(R.id.email_user);
-        tvName.setText(fullName);
-        tvemail.setText(email);
+       }
     }
     private void setImage(ImageView  imageView,String uri) {
         Glide.with(this).load(uri)

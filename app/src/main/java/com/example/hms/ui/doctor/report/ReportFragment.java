@@ -103,13 +103,14 @@ public class ReportFragment extends Fragment {
     @NonNull
     protected DatePickerDialog getDatePicker1() {
         Calendar calendar = Calendar.getInstance();
-        return new DatePickerDialog(
-                getContext(),
+        DatePickerDialog dialog= new DatePickerDialog(getContext(),
                 getDatePickerCallBack1(),
                 calendar.get(Calendar.YEAR),
                 calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH)
-        );
+                calendar.get(Calendar.DAY_OF_MONTH));
+        dialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+        return dialog;
+
     }
     private DatePickerDialog.OnDateSetListener datePickerCallBack1;
     protected DatePickerDialog.OnDateSetListener getDatePickerCallBack1() {
@@ -144,13 +145,14 @@ public class ReportFragment extends Fragment {
     @NonNull
     protected DatePickerDialog getDatePicker2() {
         Calendar calendar = Calendar.getInstance();
-        return new DatePickerDialog(
-                getContext(),
+        DatePickerDialog dialog= new DatePickerDialog(getContext(),
                 getDatePickerCallBack2(),
                 calendar.get(Calendar.YEAR),
                 calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH)
-        );
+                calendar.get(Calendar.DAY_OF_MONTH));
+        dialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+        return dialog;
+
     }
     private DatePickerDialog.OnDateSetListener datePickerCallBack2;
     protected DatePickerDialog.OnDateSetListener getDatePickerCallBack2() {

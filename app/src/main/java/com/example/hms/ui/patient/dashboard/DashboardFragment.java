@@ -19,6 +19,7 @@ import com.example.hms.R;
 import com.example.hms.ui.patient.dashboard.medicalhistory.MedicalHistoryActivity;
 import com.example.hms.ui.patient.dashboard.medicalrecord.MedicalRecordActivity;
 import com.example.hms.ui.patient.dashboard.password.ChangePasswordActivity;
+import com.example.hms.ui.patient.dashboard.payment.HospitalFeeActitvity;
 import com.example.hms.ui.patient.dashboard.payment.PaymentActivity;
 
 public class DashboardFragment extends Fragment {
@@ -48,7 +49,7 @@ public class DashboardFragment extends Fragment {
             startActivity(intent);
         });
         binding.payment.setOnClickListener(v -> {
-            Intent intent = new Intent(getContext(), PaymentActivity.class);
+            Intent intent = new Intent(getContext(), HospitalFeeActitvity.class);
             startActivity(intent);
         });
         binding.changePassword.setOnClickListener(v -> {

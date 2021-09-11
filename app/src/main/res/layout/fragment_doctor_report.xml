@@ -90,7 +90,7 @@
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
                             android:layout_margin="5.0dip"
-                            android:layout_weight="15"
+                            android:layout_weight="20"
                             android:padding="5.0dip"
                             android:text="From"
                             android:textColor="@color/black"
@@ -131,7 +131,7 @@
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
                             android:layout_margin="5.0dip"
-                            android:layout_weight="15"
+                            android:layout_weight="20"
                             android:padding="5.0dip"
                             android:text="To"
                             android:textColor="@color/black"
@@ -165,7 +165,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_weight="1.2"
+                    android:layout_weight="1.5"
                     android:gravity="center"
                     android:text="OK" />
 
